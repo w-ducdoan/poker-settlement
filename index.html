@@ -45,61 +45,34 @@
   .pill.active{border-color:var(--accent); color:var(--accent); background:rgba(47,230,160,.08);}
   .pill.dashed{border-style:dashed; color:var(--muted);}
   .cards2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-  .fmt-card{
-    border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:16px;
-    cursor:pointer;
-  }
+  .fmt-card{border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:16px; cursor:pointer;}
   .fmt-card.active{border-color:var(--accent); background:rgba(47,230,160,.08);}
   .fmt-card .emoji{font-size:1.4rem;}
   .fmt-card .fmt-title{font-weight:700; margin-top:6px;}
   .fmt-card.active .fmt-title{color:var(--accent);}
   .fmt-card .fmt-sub{color:var(--muted); font-size:.78rem; margin-top:2px;}
   .buyin-row{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
-  .buyin-custom{
-    display:flex; align-items:center; border:1px solid var(--line); border-radius:999px;
-    background:var(--card2); padding:0 4px 0 14px; min-width:90px;
-  }
+  .buyin-custom{display:flex; align-items:center; border:1px solid var(--line); border-radius:999px; background:var(--card2); padding:0 4px 0 14px; min-width:90px;}
   .buyin-custom.active{border-color:var(--accent);}
   .buyin-custom span{color:var(--muted); font-size:.88rem;}
-  .buyin-custom input{
-    border:none; background:none; padding:10px 10px 10px 4px; width:70px; font-size:.9rem;
-    color:var(--ink);
-  }
+  .buyin-custom input{border:none; background:none; padding:10px 10px 10px 4px; width:70px; font-size:.9rem; color:var(--ink);}
   hr.div{border:none; border-top:1px solid var(--line-soft); margin:26px 0;}
-  .toggle-card{
-    border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:16px;
-    display:flex; gap:14px; align-items:flex-start; margin-top:12px;
-  }
+  .toggle-card{border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:16px; display:flex; gap:14px; align-items:flex-start; margin-top:12px;}
   .toggle-card.active{border-color:var(--pro);}
-  .toggle-icon{
-    width:38px; height:38px; border-radius:10px; border:1px solid var(--pro); color:var(--pro);
-    display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;
-  }
+  .toggle-icon{width:38px; height:38px; border-radius:10px; border:1px solid var(--pro); color:var(--pro); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;}
   .toggle-body{flex:1;}
   .toggle-title{font-weight:700; display:flex; align-items:center; gap:8px;}
   .toggle-desc{color:var(--muted); font-size:.82rem; margin-top:4px;}
-  .switch{
-    position:relative; width:46px; height:26px; border-radius:999px; background:#2a352f;
-    flex-shrink:0; cursor:pointer; border:1px solid var(--line);
-  }
+  .switch{position:relative; width:46px; height:26px; border-radius:999px; background:#2a352f; flex-shrink:0; cursor:pointer; border:1px solid var(--line);}
   .switch.on{background:var(--accent); border-color:var(--accent);}
-  .switch .knob{
-    position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
-    background:#fff; transition:left .15s;
-  }
+  .switch .knob{position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:left .15s;}
   .switch.on .knob{left:22px;}
   .hint{color:var(--muted); font-size:.78rem; margin-top:8px;}
   .warn{color:var(--bad); font-weight:600; font-size:.85rem; margin-top:8px;}
   .ok{color:var(--good); font-weight:600; font-size:.85rem; margin-top:8px;}
-  .actionbar, #tabbar{
-    position:fixed; left:0; right:0; bottom:0; padding:14px; background:linear-gradient(0deg, var(--bg) 65%, transparent);
-    display:flex; gap:10px; justify-content:center; z-index:10;
-  }
+  .actionbar, #tabbar{position:fixed; left:0; right:0; bottom:0; padding:14px; background:linear-gradient(0deg, var(--bg) 65%, transparent); display:flex; gap:10px; justify-content:center; z-index:10;}
   .actionbar-inner{max-width:640px; width:100%; display:flex; gap:10px;}
-  button.cta{
-    flex:1; background:var(--accent); color:var(--accent-ink); border:none; border-radius:999px;
-    padding:16px; font-size:1rem; font-weight:700; cursor:pointer;
-  }
+  button.cta{flex:1; background:var(--accent); color:var(--accent-ink); border:none; border-radius:999px; padding:16px; font-size:1rem; font-weight:700; cursor:pointer;}
   button.cta:active{transform:translateY(1px);}
   button.cta.secondary{background:var(--card2); color:var(--ink); border:1px solid var(--line); flex:1;}
   .backlink{color:var(--muted); font-size:.85rem; background:none; border:none; cursor:pointer; padding:0; margin-bottom:6px;}
@@ -109,7 +82,6 @@
   th{text-align:left; font-size:.68rem; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); font-weight:600; padding:0 6px 8px;}
   td{padding:5px 6px;}
   input.money{text-align:right;}
-  .name-input{font-size:.95rem;}
   .net-cell{text-align:right; font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap; font-size:.9rem;}
   .net-pos{color:var(--good);}
   .net-neg{color:var(--bad);}
@@ -117,93 +89,81 @@
   .rm-btn{background:none; border:none; color:var(--muted); font-size:1.2rem; cursor:pointer; padding:4px 8px; line-height:1;}
   .rm-btn:hover{color:var(--bad);}
   .row-actions{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;}
-  button.secondary{
-    border-radius:999px; padding:10px 16px; font-size:.85rem; font-weight:600;
-    border:1px solid var(--line); cursor:pointer; background:var(--card2); color:var(--ink);
-  }
+  button.secondary{border-radius:999px; padding:10px 16px; font-size:.85rem; font-weight:600; border:1px solid var(--line); cursor:pointer; background:var(--card2); color:var(--ink);}
   .summary-line{display:flex; justify-content:space-between; font-size:.85rem; padding:3px 0; color:var(--muted);}
   .summary-line b{color:var(--ink);}
   .payments{margin-top:14px;}
   .bank-heading{font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin:14px 0 6px;}
-  .payment{
-    display:flex; justify-content:space-between; align-items:center;
-    background:var(--card2); border:1px solid var(--line); border-radius:10px;
-    padding:12px 14px; margin-bottom:8px; font-size:.95rem;
-  }
+  .payment{display:flex; justify-content:space-between; align-items:center; background:var(--card2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:8px; font-size:.95rem;}
   .payment .arrow{color:var(--muted); margin:0 8px; font-size:.8rem;}
   .payment .amt{font-weight:700; font-variant-numeric:tabular-nums; color:var(--accent);}
-  textarea{
-    width:100%; min-height:140px; border:1px solid var(--line); border-radius:10px;
-    background:var(--card2); color:var(--ink); font-family:ui-monospace,Menlo,Consolas,monospace;
-    font-size:.8rem; padding:10px; resize:vertical; margin-top:10px;
-  }
+  textarea{width:100%; min-height:140px; border:1px solid var(--line); border-radius:10px; background:var(--card2); color:var(--ink); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.8rem; padding:10px; resize:vertical; margin-top:10px;}
   .copied{color:var(--good); font-size:.8rem; margin-left:8px;}
   .custom-add{display:flex; gap:8px; margin-top:10px;}
   .custom-add input{flex:1;}
   .custom-add button{border-radius:999px; padding:0 16px; border:1px solid var(--line); background:var(--card2); color:var(--ink); cursor:pointer;}
 
-  /* ---- dashboard / tabs ---- */
   .card{border:1px solid var(--line); background:var(--card2); border-radius:16px; padding:18px; margin-top:16px;}
   .card.hero{background:linear-gradient(160deg, rgba(47,230,160,.12), var(--card2)); border-color:var(--line);}
   .card.hero p{color:var(--muted); font-size:.88rem; margin:6px 0 16px;}
-  button.cta-inline{
-    background:var(--accent); color:var(--accent-ink); border:none; border-radius:999px;
-    padding:14px 20px; font-size:.92rem; font-weight:700; cursor:pointer;
-  }
+  button.cta-inline{background:var(--accent); color:var(--accent-ink); border:none; border-radius:999px; padding:14px 20px; font-size:.92rem; font-weight:700; cursor:pointer;}
   .tilerow{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:16px;}
   .tile{border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:14px 10px; cursor:pointer; text-align:left;}
-  .tile-icon{
-    width:34px; height:34px; border-radius:50%; background:rgba(47,230,160,.12); color:var(--accent);
-    display:flex; align-items:center; justify-content:center; font-size:1.05rem; margin-bottom:10px;
-  }
+  .tile-icon{width:34px; height:34px; border-radius:50%; background:rgba(47,230,160,.12); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.05rem; margin-bottom:10px;}
   .tile-title{font-weight:700; font-size:.85rem;}
   .tile-sub{color:var(--muted); font-size:.72rem; margin-top:2px;}
   #tabbar{background:rgba(11,18,16,.96); border-top:1px solid var(--line-soft); backdrop-filter:blur(6px);}
-  .tabbtn{
-    flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:2px;
-    color:var(--muted); font-size:.68rem; cursor:pointer; padding:4px 0;
-  }
+  .tabbtn{flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:2px; color:var(--muted); font-size:.68rem; cursor:pointer; padding:4px 0;}
   .tabbtn .tabicon{font-size:1.15rem;}
   .tabbtn.active{color:var(--accent);}
   .game-card{border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:14px; margin-top:12px;}
   .game-card-head{display:flex; justify-content:space-between; align-items:center;}
   .game-card-meta{color:var(--muted); font-size:.78rem; margin-top:4px;}
-  .game-detail{
-    margin-top:10px; background:var(--input-bg); border:1px solid var(--line-soft); border-radius:8px;
-    padding:10px; font-size:.75rem; white-space:pre-wrap; color:var(--ink);
-  }
+  .game-detail{margin-top:10px; background:var(--input-bg); border:1px solid var(--line-soft); border-radius:8px; padding:10px; font-size:.75rem; white-space:pre-wrap; color:var(--ink);}
   .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;}
   .stat-card{border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:14px;}
   .stat-label{color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em;}
   .stat-value{font-size:1.05rem; font-weight:700; margin-top:6px;}
+
+  /* ---- roster ---- */
+  .roster-row{display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--line); background:var(--card2); border-radius:12px; margin-bottom:8px; cursor:pointer;}
+  .roster-row.selected{border-color:var(--accent); background:rgba(47,230,160,.08);}
+  .roster-avatar{width:32px; height:32px; border-radius:50%; background:var(--input-bg); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); flex-shrink:0;}
+  .roster-check{margin-left:auto; color:var(--accent); font-weight:700;}
+
+  /* ---- live game ---- */
+  .stat-grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:16px;}
+  .stat-box{background:var(--card2); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center;}
+  .stat-box.highlight{border-color:var(--pro); background:rgba(232,179,76,.08);}
+  .stat-box-value{font-size:1.2rem; font-weight:800;}
+  .stat-box.highlight .stat-box-value{color:var(--pro);}
+  .stat-box-label{color:var(--muted); font-size:.62rem; text-transform:uppercase; letter-spacing:.03em; margin-top:2px;}
+  .live-player{border:1px solid var(--line); background:var(--card2); border-radius:14px; padding:14px; margin-top:12px;}
+  .live-player-head{display:flex; gap:10px; align-items:center;}
+  .avatar{width:38px; height:38px; border-radius:50%; background:var(--input-bg); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); flex-shrink:0;}
+  .lp-name{font-weight:700;}
+  .lp-meta{color:var(--muted); font-size:.75rem; margin-top:2px;}
+  .lp-actions{display:flex; gap:8px; margin-top:12px; align-items:center;}
+  .lp-rebuy{flex:1; padding:10px; font-size:.85rem;}
+  .lp-icon-btn{width:38px; height:38px; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--ink); cursor:pointer; flex-shrink:0; font-size:.95rem;}
+  .lp-custom-rebuy{width:100%; margin-top:8px; font-size:.78rem; padding:8px;}
+  .expense-row{display:flex; justify-content:space-between; font-size:.85rem; padding:6px 0; border-bottom:1px solid var(--line-soft);}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
+  .ringing{animation:pulse 1s infinite;}
 </style>
 </head>
 <body>
 
-<!-- ================= TABS: DASHBOARD / GAMES / INSIGHTS / STANDINGS ================= -->
 <div class="wrap" id="tabsWrap">
-
   <div class="tabview active" id="view-dashboard">
     <h1>Dashboard</h1>
     <p class="sub" id="dashDate">Run the game. Track the story.</p>
     <p class="hint" id="dashSummary"></p>
     <div class="card hero" id="dashStatusCard"></div>
     <div class="tilerow">
-      <div class="tile" onclick="startNewGame()">
-        <div class="tile-icon">&#43;</div>
-        <div class="tile-title">New Game</div>
-        <div class="tile-sub">Start tonight fast</div>
-      </div>
-      <div class="tile" onclick="switchTab('standings')">
-        <div class="tile-icon">&#127942;</div>
-        <div class="tile-title">Standings</div>
-        <div class="tile-sub">See where everyone stands</div>
-      </div>
-      <div class="tile" onclick="switchTab('insights')">
-        <div class="tile-icon">&#128200;</div>
-        <div class="tile-title">Insights</div>
-        <div class="tile-sub">Stats across your games</div>
-      </div>
+      <div class="tile" onclick="startNewGame()"><div class="tile-icon">&#43;</div><div class="tile-title">New Game</div><div class="tile-sub">Start tonight fast</div></div>
+      <div class="tile" onclick="switchTab('standings')"><div class="tile-icon">&#127942;</div><div class="tile-title">Standings</div><div class="tile-sub">See where everyone stands</div></div>
+      <div class="tile" onclick="switchTab('insights')"><div class="tile-icon">&#128200;</div><div class="tile-title">Insights</div><div class="tile-sub">Stats across your games</div></div>
     </div>
   </div>
 
@@ -225,7 +185,6 @@
     <p class="sub">Cumulative net across every saved game.</p>
     <div id="standingsWrap"></div>
   </div>
-
 </div>
 
 <nav id="tabbar">
@@ -237,7 +196,6 @@
   </div>
 </nav>
 
-<!-- ================= WIZARD: SETUP / PLAYERS / RESULTS ================= -->
 <div class="wrap" id="wizardWrap" style="display:none;">
 
   <section class="screen active" id="screen-setup">
@@ -252,16 +210,8 @@
 
     <label class="field-label">Format</label>
     <div class="cards2">
-      <div class="fmt-card active" id="fmt-in-person" onclick="setFormat('in-person')">
-        <div class="emoji">&#127968;</div>
-        <div class="fmt-title">In Person</div>
-        <div class="fmt-sub">Home game or venue</div>
-      </div>
-      <div class="fmt-card" id="fmt-online" onclick="setFormat('online')">
-        <div class="emoji">&#128187;</div>
-        <div class="fmt-title">Online</div>
-        <div class="fmt-sub">Remote / app-based</div>
-      </div>
+      <div class="fmt-card active" id="fmt-in-person" onclick="setFormat('in-person')"><div class="emoji">&#127968;</div><div class="fmt-title">In Person</div><div class="fmt-sub">Home game or venue</div></div>
+      <div class="fmt-card" id="fmt-online" onclick="setFormat('online')"><div class="emoji">&#128187;</div><div class="fmt-title">Online</div><div class="fmt-sub">Remote / app-based</div></div>
     </div>
 
     <label class="field-label">Stakes</label>
@@ -276,22 +226,17 @@
     <p class="hint">Picking a stake auto-sets this to 50 big blinds — tweak it any time.</p>
 
     <hr class="div">
-
     <div class="section-label">Schedule &amp; place</div>
     <p class="section-sub">Choose when and where the table opens.</p>
-
     <label class="field-label">Date &amp; time</label>
     <div class="pillrow" id="dateRow"></div>
     <input type="datetime-local" id="dateTimeInput" style="margin-top:10px;">
-
     <label class="field-label" id="locationLabel">Location</label>
     <input type="text" id="locationInput" placeholder="Add location">
 
     <hr class="div">
-
     <div class="section-label">Payout mode</div>
     <p class="section-sub">Choose how the game will settle at the end.</p>
-
     <div class="toggle-card" id="bankCard">
       <div class="toggle-icon">&#127974;</div>
       <div class="toggle-body">
@@ -302,55 +247,81 @@
     </div>
 
     <hr class="div">
-
     <div class="section-label">Advanced / extra</div>
     <p class="section-sub">Save your settings and pick up where you left off.</p>
-
     <div class="toggle-card">
       <div class="toggle-icon" style="border-color:var(--accent); color:var(--accent);">&#128190;</div>
       <div class="toggle-body">
         <div class="toggle-title">Remember these settings</div>
-        <div class="toggle-desc">Keeps game name, format, stakes, default buy-in, location, and payout mode filled in next time you open this file. Player names and amounts are never saved automatically until you start a game.</div>
+        <div class="toggle-desc">Keeps game name, format, stakes, default buy-in, location, and payout mode filled in next time you open this file.</div>
       </div>
       <div class="switch on" id="rememberSwitch" onclick="toggleRemember()"><div class="knob"></div></div>
     </div>
     <button class="secondary" style="margin-top:12px;" onclick="clearSavedSettings()">Clear saved settings &amp; history</button>
   </section>
 
-  <section class="screen" id="screen-players">
+  <section class="screen" id="screen-roster">
+    <button class="backlink" onclick="goTo('setup')">&larr; Back to Details</button>
+    <h1>Who's playing?</h1>
+    <p class="sub" id="rosterSub">Last game's roster is selected. Tap any player to add or remove them.</p>
+    <div style="display:flex; gap:8px; margin:14px 0;">
+      <input type="text" id="rosterSearch" placeholder="Search saved players" oninput="renderRosterList()">
+      <button class="secondary" style="white-space:nowrap;" onclick="addRosterPlayer()">+ Add Player</button>
+    </div>
+    <div id="rosterList"></div>
+  </section>
+
+  <section class="screen" id="screen-live">
     <button class="backlink" onclick="goTo('setup')">&larr; Edit setup</button>
     <button class="backlink" style="float:right;" onclick="exitWizardToDashboard()">Save &amp; go to Dashboard</button>
-    <h1 id="playersHeading">Players</h1>
-    <div class="breadcrumb" id="breadcrumb"></div>
-
-    <div class="section-sub">Buy-in and cash-out accept sums like <code>40+20</code> for rebuys. <span id="bankHintText"></span></div>
-
-    <table>
-      <thead>
-        <tr>
-          <th style="width:30%">Player</th>
-          <th style="width:20%">Buy-in ($)</th>
-          <th style="width:20%">Cash-out ($)</th>
-          <th style="width:14%; text-align:right;">Net</th>
-          <th style="width:10%" id="bankColHeader"></th>
-          <th style="width:6%"></th>
-        </tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
-    <div class="row-actions">
-      <button class="secondary" onclick="addRow()">+ Add player</button>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-top:6px;">
+      <div><h1 id="liveGameName">Game</h1><p class="sub" id="liveGameDate"></p></div>
+      <span class="crumb" style="border-color:var(--good); color:var(--good);">active</span>
     </div>
+
+    <div class="stat-grid3" id="liveStats"></div>
+    <div class="card" style="text-align:center; padding:12px;">
+      <span class="hint" style="margin:0;">SESSION DURATION</span>
+      <div style="font-size:1.1rem; font-weight:700; margin-top:2px;" id="liveDuration">0m</div>
+    </div>
+    <div class="card hero" style="text-align:center;">
+      <div class="hint" style="margin:0; color:var(--muted);">TOTAL POT</div>
+      <div style="font-size:2.2rem; font-weight:800; color:var(--good); margin-top:4px;" id="liveTotalPot">$0.00</div>
+    </div>
+    <div class="card" id="rebuySummary" style="display:none; border-color:var(--pro); background:rgba(232,179,76,.08);"></div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+      <h2 style="margin:0;">Players</h2>
+      <div style="display:flex; gap:8px;">
+        <button class="secondary" style="border-color:var(--pro); color:var(--pro);" onclick="seatDraw()">Seat Draw</button>
+        <button class="secondary" style="border-color:var(--accent); color:var(--accent);" onclick="addLivePlayer()">+ Add</button>
+      </div>
+    </div>
+    <div id="livePlayers"></div>
+
+    <div class="card" id="bombPotCard"></div>
+    <div class="card" id="expensesCard"></div>
+  </section>
+
+  <section class="screen" id="screen-countchips">
+    <button class="backlink" onclick="goTo('live')">&larr; Back to game</button>
+    <h1>Count Chips</h1>
+    <p class="sub">Enter each player's final chip count.</p>
+    <table>
+      <thead><tr><th style="width:28%">Player</th><th style="width:22%">Buy-in</th><th style="width:22%">Cash-out ($)</th><th style="width:16%; text-align:right;">Net</th><th style="width:12%" id="ccBankHeader"></th></tr></thead>
+      <tbody id="ccRows"></tbody>
+    </table>
     <div id="balanceMsg"></div>
   </section>
 
   <section class="screen" id="screen-results">
-    <button class="backlink" onclick="goTo('players')">&larr; Back to players</button>
+    <button class="backlink" onclick="goTo('countchips')">&larr; Back to chip count</button>
     <h1 id="resultsHeading">Settlement</h1>
     <div class="breadcrumb" id="breadcrumbResults"></div>
 
     <div class="summary-line"><span>Total buy-in</span><b id="sumBuyin">$0.00</b></div>
     <div class="summary-line"><span>Total cash-out</span><b id="sumCashout">$0.00</b></div>
+    <div class="summary-line" id="expensesLine" style="display:none;"><span>Game expenses</span><b id="sumExpenses">$0.00</b></div>
     <div id="balanceMsgResults"></div>
 
     <div class="payments" id="payments"></div>
@@ -366,41 +337,53 @@
 </div>
 
 <div class="actionbar" id="actionbar" style="display:none;"></div>
-<datalist id="knownPlayers"></datalist>
 
 <script>
-/* ================= state ================= */
+/* ================= constants ================= */
 const STAKE_PRESETS = ['$0.05/$0.10','$0.10/$0.25','$0.25/$0.50','$0.50/$1.00','$1.00/$2.00','$1.00/$3.00','$2.00/$5.00','$5.00/$10.00'];
 const BUYIN_PRESETS = [2,5,10,20];
 const SETTINGS_KEY = 'hgpoker_settings_v1';
 const CUSTOM_STAKES_KEY = 'hgpoker_custom_stakes_v1';
-const DRAFT_KEY = 'hgpoker_draft_game_v1';
+const DRAFT_KEY = 'hgpoker_draft_game_v2';
 const HISTORY_KEY = 'hgpoker_history_v1';
+const ROSTER_KEY = 'hgpoker_roster_v1';
+const LAST_SELECTED_KEY = 'hgpoker_last_selected_v1';
 
 let customStakes = [];
+let playerCounter = 0;
 let state = {
   gameName: '', format: 'in-person', stakes: STAKE_PRESETS[0], buyInDefault: 5,
-  dateTimeISO: '', location: '', bankMode: false, bankName: '', remember: true, players: []
+  dateTimeISO: '', location: '', bankMode: false, bankName: '', remember: true,
+  phase: 'setup', players: [], expenses: [], bombPot: null, gameStartedAt: null
 };
-let rowId = 0;
 
-/* ================= persistence: settings / draft / history ================= */
+/* ================= persistence: settings / roster / draft / history ================= */
 function loadSettings(){
-  try{ const raw = localStorage.getItem(SETTINGS_KEY); if (raw) Object.assign(state, JSON.parse(raw), { players: [] }); }catch(e){}
+  try{ const raw = localStorage.getItem(SETTINGS_KEY); if (raw) Object.assign(state, JSON.parse(raw)); }catch(e){}
   try{ const raw2 = localStorage.getItem(CUSTOM_STAKES_KEY); if (raw2) customStakes = JSON.parse(raw2); }catch(e){}
 }
 function saveSettingsIfEnabled(){
   if (!state.remember) return;
-  try{ const { players, ...toSave } = state; localStorage.setItem(SETTINGS_KEY, JSON.stringify(toSave)); }catch(e){}
+  const toSave = { gameName: state.gameName, format: state.format, stakes: state.stakes, buyInDefault: state.buyInDefault, location: state.location, bankMode: state.bankMode, remember: state.remember };
+  try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(toSave)); }catch(e){}
 }
+function loadRoster(){
+  try{ const raw = localStorage.getItem(ROSTER_KEY); if (raw) return JSON.parse(raw); }catch(e){}
+  return ['Host'];
+}
+function saveRoster(list){ try{ localStorage.setItem(ROSTER_KEY, JSON.stringify(list)); }catch(e){} }
+function addNameToRoster(name){ const r = loadRoster(); if (!r.includes(name)){ r.push(name); saveRoster(r); } }
+function loadLastSelected(){ try{ const raw = localStorage.getItem(LAST_SELECTED_KEY); if (raw) return JSON.parse(raw); }catch(e){} return []; }
+function saveLastSelected(names){ try{ localStorage.setItem(LAST_SELECTED_KEY, JSON.stringify(names)); }catch(e){} }
+
 function saveDraft(){ try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(state)); }catch(e){} }
 function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
 function loadDraft(){ try{ const raw = localStorage.getItem(DRAFT_KEY); return raw ? JSON.parse(raw) : null; }catch(e){ return null; } }
 function clearSavedSettings(){
   if (!confirm('Clear saved defaults AND all game history? This cannot be undone.')) return;
   try{
-    localStorage.removeItem(SETTINGS_KEY); localStorage.removeItem(CUSTOM_STAKES_KEY);
-    localStorage.removeItem(DRAFT_KEY); localStorage.removeItem(HISTORY_KEY);
+    localStorage.removeItem(SETTINGS_KEY); localStorage.removeItem(CUSTOM_STAKES_KEY); localStorage.removeItem(DRAFT_KEY);
+    localStorage.removeItem(HISTORY_KEY); localStorage.removeItem(ROSTER_KEY); localStorage.removeItem(LAST_SELECTED_KEY);
   }catch(e){}
   location.reload();
 }
@@ -410,6 +393,14 @@ function deleteHistoryEntry(id){
   if (!confirm('Delete this game from history? This cannot be undone.')) return;
   saveHistory(loadHistory().filter(g => g.id !== id));
   renderGames(); renderInsights(); renderStandings(); renderDashboard();
+}
+function escapeHtml(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function sumArr(a){ return (a||[]).reduce((s,v)=>s+v,0); }
+function formatDuration(ms){
+  if (!ms || ms < 0) ms = 0;
+  const totalMin = Math.floor(ms/60000);
+  const h = Math.floor(totalMin/60), m = totalMin % 60;
+  return h > 0 ? (h + 'h ' + m + 'm') : (m + 'm');
 }
 
 /* ================= mode switching (tabs vs wizard) ================= */
@@ -421,6 +412,7 @@ function setMode(mode){
   window.scrollTo(0,0);
 }
 function switchTab(name){
+  clearInterval(window.__liveInterval);
   document.querySelectorAll('.tabview').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + name).classList.add('active');
   document.querySelectorAll('.tabbtn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
@@ -437,7 +429,7 @@ function renderDashboard(){
   const gamesCount = loadHistory().length;
   document.getElementById('dashSummary').textContent = gamesCount ? gamesCount + ' game' + (gamesCount === 1 ? '' : 's') + ' saved so far.' : 'No games saved yet.';
   const draft = loadDraft();
-  const hasDraft = draft && draft.players && draft.players.length > 0;
+  const hasDraft = draft && draft.players && draft.players.length > 0 && (draft.phase === 'live' || draft.phase === 'countchips');
   const card = document.getElementById('dashStatusCard');
   if (hasDraft){
     card.innerHTML = '<h2>Game in Progress</h2><p>"' + escapeHtml(draft.gameName || 'Home Game') + '" has ' + draft.players.length +
@@ -463,11 +455,7 @@ function renderGames(){
       '</div>';
   }).join('');
 }
-function toggleGameDetail(id){
-  const el = document.getElementById('detail-' + id);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
-}
-function escapeHtml(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function toggleGameDetail(id){ const el = document.getElementById('detail-' + id); el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
 
 /* ================= insights tab ================= */
 function statCard(label, value){ return '<div class="stat-card"><div class="stat-label">' + label + '</div><div class="stat-value">' + value + '</div></div>'; }
@@ -516,20 +504,13 @@ function renderStandings(){
       '<td class="net-cell ' + (r.net >= 0 ? 'net-pos' : 'net-neg') + '" style="text-align:right;">' + (r.net >= 0 ? '+' : '-') + '$' + Math.abs(r.net).toFixed(2) + '</td></tr>').join('') +
     '</tbody></table><p class="hint">Names are matched case-insensitively — spell each player the same way every game so they stay one row.</p>';
 }
-function renderKnownPlayersDatalist(){
-  const dl = document.getElementById('knownPlayers');
-  const names = new Set();
-  loadHistory().forEach(g => g.players.forEach(p => names.add(p.name)));
-  dl.innerHTML = Array.from(names).map(n => '<option value="' + escapeHtml(n) + '">').join('');
-}
 
-/* ================= setup screen rendering ================= */
+/* ================= setup screen ================= */
 function renderStakes(){
   const row = document.getElementById('stakesRow');
   const all = STAKE_PRESETS.concat(customStakes);
-  row.innerHTML = all.map(s =>
-    '<div class="pill ' + (state.stakes === s ? 'active' : '') + '" onclick="selectStake(\'' + s.replace(/'/g,"\\'") + '\')">' + s + '</div>'
-  ).join('') + '<div class="pill dashed" onclick="showCustomStake()">+ Custom</div>';
+  row.innerHTML = all.map(s => '<div class="pill ' + (state.stakes === s ? 'active' : '') + '" onclick="selectStake(\'' + s.replace(/'/g,"\\'") + '\')">' + s + '</div>').join('') +
+    '<div class="pill dashed" onclick="showCustomStake()">+ Custom</div>';
 }
 function bigBlindFromStake(s){
   const parts = String(s).split('/');
@@ -537,17 +518,13 @@ function bigBlindFromStake(s){
   const bb = parseFloat(parts[1].replace(/[^0-9.]/g, ''));
   return isNaN(bb) ? null : bb;
 }
-function suggestedBuyIn(bigBlind){
-  const bbCents = Math.round(bigBlind * 100);
-  return (bbCents * 50) / 100;
-}
+function suggestedBuyIn(bigBlind){ const bbCents = Math.round(bigBlind * 100); return (bbCents * 50) / 100; }
 function selectStake(s){
   state.stakes = s;
   const bb = bigBlindFromStake(s);
   if (bb !== null && bb > 0){ state.buyInDefault = suggestedBuyIn(bb); }
   document.getElementById('stakeAddRow').style.display = 'none';
-  renderStakes();
-  renderBuyin();
+  renderStakes(); renderBuyin();
 }
 function showCustomStake(){ document.getElementById('stakeAddRow').style.display = 'flex'; document.getElementById('customStakeInput').focus(); }
 function addCustomStake(){
@@ -561,10 +538,8 @@ function addCustomStake(){
 function renderBuyin(){
   const row = document.getElementById('buyinRow');
   const isPreset = BUYIN_PRESETS.includes(state.buyInDefault);
-  row.innerHTML = BUYIN_PRESETS.map(v =>
-    '<div class="pill ' + (state.buyInDefault === v ? 'active' : '') + '" onclick="selectBuyin(' + v + ')">$' + v + '</div>'
-  ).join('') +
-  '<div class="buyin-custom ' + (!isPreset ? 'active' : '') + '"><span>$</span><input type="number" id="customBuyinInput" value="' + (!isPreset ? state.buyInDefault : '') + '" placeholder="Custom"></div>';
+  row.innerHTML = BUYIN_PRESETS.map(v => '<div class="pill ' + (state.buyInDefault === v ? 'active' : '') + '" onclick="selectBuyin(' + v + ')">$' + v + '</div>').join('') +
+    '<div class="buyin-custom ' + (!isPreset ? 'active' : '') + '"><span>$</span><input type="number" id="customBuyinInput" value="' + (!isPreset ? state.buyInDefault : '') + '" placeholder="Custom"></div>';
   document.getElementById('customBuyinInput').addEventListener('input', function(){
     const v = parseFloat(this.value);
     if (!isNaN(v) && v >= 0){ state.buyInDefault = v; renderBuyin(); this.focus(); this.setSelectionRange(String(v).length, String(v).length); }
@@ -601,14 +576,12 @@ function pickDate(i){
   document.getElementById('dateTimeInput').value = toLocalInputValue(d);
   state.dateTimeISO = d.toISOString();
 }
-
-/* ================= toggles ================= */
 function toggleBank(){
   state.bankMode = !state.bankMode;
   document.getElementById('bankSwitch').className = 'switch' + (state.bankMode ? ' on' : '');
   document.getElementById('bankCard').className = 'toggle-card' + (state.bankMode ? ' active' : '');
   document.getElementById('bankDesc').textContent = state.bankMode
-    ? 'One designated player (pick them on the Players screen) collects every buy-in and pays out every winner directly — everyone else only ever deals with the bank.'
+    ? 'One designated player (pick them on the Count Chips screen) collects every buy-in and pays out every winner directly — everyone else only ever deals with the bank.'
     : 'One player collects all buy-ins and pays out all winners. Best for games where one host or banker handles all money movement. When off, everyone settles directly with each other using the fewest possible payments.';
 }
 function toggleRemember(){
@@ -616,9 +589,20 @@ function toggleRemember(){
   document.getElementById('rememberSwitch').className = 'switch' + (state.remember ? ' on' : '');
   if (state.remember) saveSettingsIfEnabled();
 }
+function applyStateToSetupForm(){
+  document.getElementById('gameName').value = state.gameName || '';
+  setFormat(state.format);
+  renderStakes(); renderBuyin(); renderDatePills();
+  if (state.dateTimeISO) document.getElementById('dateTimeInput').value = toLocalInputValue(new Date(state.dateTimeISO));
+  document.getElementById('locationInput').value = state.location || '';
+  document.getElementById('bankSwitch').className = 'switch' + (state.bankMode ? ' on' : '');
+  document.getElementById('bankCard').className = 'toggle-card' + (state.bankMode ? ' active' : '');
+  document.getElementById('rememberSwitch').className = 'switch' + (state.remember ? ' on' : '');
+}
 
-/* ================= wizard navigation ================= */
+/* ================= navigation ================= */
 function goTo(name){
+  clearInterval(window.__liveInterval);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
   renderActionBar(name);
@@ -627,11 +611,15 @@ function goTo(name){
 function renderActionBar(name){
   const bar = document.getElementById('actionbar');
   if (name === 'setup'){
-    bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="exitWizardToDashboard()">Cancel</button><button class="cta" onclick="continueToPlayers()">Continue to Players &rarr;</button></div>';
-  } else if (name === 'players'){
-    bar.innerHTML = '<div class="actionbar-inner"><button class="cta" onclick="calculate()">Calculate settlement</button></div>';
+    bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="exitWizardToDashboard()">Cancel</button><button class="cta" onclick="goToRoster()">Continue &rarr;</button></div>';
+  } else if (name === 'roster'){
+    updateRosterCTA();
+  } else if (name === 'live'){
+    bar.innerHTML = '<div class="actionbar-inner"><button class="cta" style="background:var(--bad); color:#fff;" onclick="endGameAndCountChips()">End Game &amp; Count Chips</button></div>';
+  } else if (name === 'countchips'){
+    bar.innerHTML = '<div class="actionbar-inner"><button class="cta" onclick="calculate()">Calculate Settlement</button></div>';
   } else {
-    bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="goTo(\'players\')">Adjust players</button><button class="cta" onclick="saveGameToHistory()">Save &amp; finish</button></div>';
+    bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="goTo(\'countchips\')">Adjust chip counts</button><button class="cta" onclick="saveGameToHistory()">Save &amp; finish</button></div>';
   }
 }
 function breadcrumbHTML(){
@@ -645,101 +633,350 @@ function breadcrumbHTML(){
   if (state.bankMode) parts.push('Bank: ' + (state.bankName || 'not set'));
   return parts.map(p => '<span class="crumb">' + escapeHtml(p) + '</span>').join('');
 }
-function continueToPlayers(){
-  state.gameName = document.getElementById('gameName').value.trim() || 'Home Game';
-  state.location = document.getElementById('locationInput').value.trim();
-  const dtVal = document.getElementById('dateTimeInput').value;
-  if (dtVal) state.dateTimeISO = new Date(dtVal).toISOString();
-  saveSettingsIfEnabled();
-  renderKnownPlayersDatalist();
-  if (document.getElementById('rows').children.length === 0){ for (let i=0;i<4;i++) addRow(); }
-  document.getElementById('playersHeading').textContent = state.gameName;
-  document.getElementById('breadcrumb').innerHTML = breadcrumbHTML();
-  renderBankColumn();
-  goTo('players');
-}
 function startNewGame(){
   clearDraft();
-  state.players = [];
-  document.getElementById('rows').innerHTML = '';
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup';
   setMode('wizard');
   goTo('setup');
 }
 function exitWizardToDashboard(){ switchTab('dashboard'); }
+function discardGame(){
+  if (!confirm('Discard this game without saving? This cannot be undone.')) return;
+  clearDraft();
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup';
+  switchTab('dashboard');
+}
 function resumeDraftFromDashboard(){
   const draft = loadDraft();
   if (!draft) return;
   Object.assign(state, draft);
   setMode('wizard');
   applyStateToSetupForm();
-  document.getElementById('rows').innerHTML = '';
-  continueToPlayers();
-  document.getElementById('rows').innerHTML = '';
-  state.players.forEach(p => addRow(p));
-  renderBankColumn();
+  if (state.phase === 'countchips'){ goTo('countchips'); renderCountChips(); }
+  else { goTo('live'); renderLive(); }
 }
 
-/* ================= players screen ================= */
+/* ================= roster screen ================= */
+function goToRoster(){
+  state.gameName = document.getElementById('gameName').value.trim() || 'Home Game';
+  state.location = document.getElementById('locationInput').value.trim();
+  const dtVal = document.getElementById('dateTimeInput').value;
+  if (dtVal) state.dateTimeISO = new Date(dtVal).toISOString();
+  saveSettingsIfEnabled();
+  const roster = loadRoster();
+  const lastSelected = loadLastSelected();
+  window.__rosterSelected = new Set(roster.filter(n => lastSelected.includes(n)));
+  document.getElementById('rosterSearch').value = '';
+  renderRosterList();
+  goTo('roster');
+}
+function renderRosterList(){
+  const search = document.getElementById('rosterSearch').value.trim().toLowerCase();
+  const roster = loadRoster();
+  const filtered = search ? roster.filter(n => n.toLowerCase().includes(search)) : roster;
+  const list = document.getElementById('rosterList');
+  if (!filtered.length){
+    list.innerHTML = '<p class="hint" style="margin-top:16px;">No saved players' + (search ? ' match that search' : ' yet') + '. Use "+ Add Player" to create one.</p>';
+  } else {
+    list.innerHTML = filtered.map(name => {
+      const sel = window.__rosterSelected.has(name);
+      return '<div class="roster-row ' + (sel ? 'selected' : '') + '" onclick="toggleRosterPlayer(\'' + name.replace(/'/g,"\\'") + '\')">' +
+        '<span class="roster-avatar">' + escapeHtml(name.slice(0,1).toUpperCase()) + '</span>' +
+        '<span>' + escapeHtml(name) + '</span>' + (sel ? '<span class="roster-check">&#10003;</span>' : '') + '</div>';
+    }).join('');
+  }
+  updateRosterCTA();
+}
+function toggleRosterPlayer(name){
+  if (window.__rosterSelected.has(name)) window.__rosterSelected.delete(name); else window.__rosterSelected.add(name);
+  renderRosterList();
+}
+function addRosterPlayer(){
+  const name = prompt('Player name?');
+  if (!name || !name.trim()) return;
+  const trimmed = name.trim();
+  addNameToRoster(trimmed);
+  window.__rosterSelected.add(trimmed);
+  document.getElementById('rosterSearch').value = '';
+  renderRosterList();
+}
+function updateRosterCTA(){
+  const bar = document.getElementById('actionbar');
+  const n = window.__rosterSelected ? window.__rosterSelected.size : 0;
+  bar.innerHTML = '<div class="actionbar-inner"><button class="cta" onclick="createCashGame()">Create Cash Game &middot; ' + n + ' Player' + (n === 1 ? '' : 's') + '</button></div>';
+}
+function makeNewPlayer(name){
+  playerCounter++;
+  return { id: 'pl_' + playerCounter + '_' + Date.now(), name, buyins: [state.buyInDefault || 0], cashout: null, isBank: false, sessionStart: Date.now(), pausedSince: null, pausedTotalMs: 0 };
+}
+function createCashGame(){
+  const names = Array.from(window.__rosterSelected || []);
+  state.players = names.map(n => makeNewPlayer(n));
+  state.expenses = [];
+  state.bombPot = { durationSec: 1800, remainingSec: 1800, running: false, lastTickAt: null, alerted: false };
+  state.gameStartedAt = Date.now();
+  state.phase = 'live';
+  saveLastSelected(names);
+  saveDraft();
+  goTo('live');
+  renderLive();
+}
+
+/* ================= live game screen ================= */
+function playerElapsedMs(p, now){ const end = p.pausedSince || now; return Math.max(0, end - p.sessionStart - p.pausedTotalMs); }
+function statBox(value, label, highlight){ return '<div class="stat-box' + (highlight ? ' highlight' : '') + '"><div class="stat-box-value">' + value + '</div><div class="stat-box-label">' + label + '</div></div>'; }
+
+function renderLive(){
+  document.getElementById('liveGameName').textContent = state.gameName;
+  document.getElementById('liveGameDate').textContent = state.dateTimeISO ? new Date(state.dateTimeISO).toLocaleDateString([], { weekday:'short', month:'short', day:'numeric' }) : '';
+  tickLive();
+  clearInterval(window.__liveInterval);
+  window.__liveInterval = setInterval(tickLive, 1000);
+}
+function tickLive(){
+  const now = Date.now();
+  const players = state.players;
+  const totalPot = players.reduce((s,p) => s + sumArr(p.buyins), 0);
+  const totalBuyins = players.reduce((s,p) => s + p.buyins.length, 0);
+  const buyinLabel = '$' + (Math.round((state.buyInDefault||0) * 100) / 100).toString();
+
+  document.getElementById('liveStats').innerHTML =
+    statBox(players.length, 'PLAYERS') + statBox(buyinLabel, 'BUY-IN', true) + statBox(totalBuyins, 'BUY-INS');
+  document.getElementById('liveDuration').textContent = formatDuration(now - (state.gameStartedAt || now));
+  document.getElementById('liveTotalPot').textContent = '$' + totalPot.toFixed(2);
+
+  const rebuyPlayers = players.filter(p => p.buyins.length > 1);
+  const totalRebuys = players.reduce((s,p) => s + Math.max(0, p.buyins.length - 1), 0);
+  const rs = document.getElementById('rebuySummary');
+  if (totalRebuys > 0){
+    rs.style.display = 'block';
+    rs.innerHTML = '<b style="color:var(--pro);">' + totalRebuys + ' rebuy' + (totalRebuys === 1 ? '' : 's') + '</b> <span class="hint" style="margin:0;">— ' + rebuyPlayers.map(p => escapeHtml(p.name)).join(', ') + '</span>';
+  } else { rs.style.display = 'none'; }
+
+  document.getElementById('livePlayers').innerHTML = players.map(p => livePlayerCardHTML(p, now)).join('');
+  renderBombPotCard(now);
+  renderExpensesCard();
+}
+function livePlayerCardHTML(p, now){
+  const total = sumArr(p.buyins);
+  const elapsed = formatDuration(playerElapsedMs(p, now));
+  const paused = !!p.pausedSince;
+  return '<div class="live-player">' +
+    '<div class="live-player-head"><span class="avatar">' + escapeHtml(p.name.slice(0,1).toUpperCase()) + '</span>' +
+    '<div><div class="lp-name">' + escapeHtml(p.name) + '</div>' +
+    '<div class="lp-meta">$' + total.toFixed(2) + ' (' + p.buyins.length + ' buy-in' + (p.buyins.length === 1 ? '' : 's') + ') &middot; ' + elapsed + (paused ? ' &middot; paused' : '') + '</div></div></div>' +
+    '<div class="lp-actions">' +
+      '<button class="cta lp-rebuy" onclick="quickRebuy(\'' + p.id + '\')">Rebuy $' + (state.buyInDefault || 0) + '</button>' +
+      '<button class="lp-icon-btn" onclick="togglePause(\'' + p.id + '\')" title="' + (paused ? 'Resume' : 'Pause') + '">' + (paused ? '&#9654;' : '&#10074;&#10074;') + '</button>' +
+      '<button class="lp-icon-btn" onclick="openPlayerSettings(\'' + p.id + '\')" title="Settings">&#9881;</button>' +
+    '</div>' +
+    '<button class="secondary lp-custom-rebuy" onclick="customRebuy(\'' + p.id + '\')">Custom Rebuy</button>' +
+  '</div>';
+}
+function quickRebuy(id){
+  const p = state.players.find(x => x.id === id); if (!p) return;
+  p.buyins.push(state.buyInDefault || 0);
+  saveDraft(); tickLive();
+}
+function customRebuy(id){
+  const p = state.players.find(x => x.id === id); if (!p) return;
+  const amtStr = prompt('Custom rebuy amount for ' + p.name + ' ($)', String(state.buyInDefault || ''));
+  if (amtStr === null) return;
+  const v = parseFloat(amtStr);
+  if (isNaN(v) || v <= 0){ alert('Enter a valid amount.'); return; }
+  p.buyins.push(Math.round(v * 100) / 100);
+  saveDraft(); tickLive();
+}
+function togglePause(id){
+  const p = state.players.find(x => x.id === id); if (!p) return;
+  const now = Date.now();
+  if (p.pausedSince){ p.pausedTotalMs += now - p.pausedSince; p.pausedSince = null; }
+  else { p.pausedSince = now; }
+  saveDraft(); tickLive();
+}
+function openPlayerSettings(id){
+  const p = state.players.find(x => x.id === id); if (!p) return;
+  const choice = prompt('Settings for ' + p.name + ' — type RENAME, REMOVE, or ADJUST (change total buy-in):', '');
+  if (!choice) return;
+  const c = choice.trim().toLowerCase();
+  if (c === 'rename'){
+    const newName = prompt('New name for ' + p.name, p.name);
+    if (newName && newName.trim()){ p.name = newName.trim(); addNameToRoster(p.name); }
+  } else if (c === 'remove'){
+    if (confirm('Remove ' + p.name + ' from this game? This cannot be undone.')) state.players = state.players.filter(x => x.id !== id);
+  } else if (c === 'adjust'){
+    const cur = sumArr(p.buyins);
+    const newTotal = prompt("Set " + p.name + "'s total buy-in to:", cur);
+    const v = parseFloat(newTotal);
+    if (!isNaN(v) && v >= 0) p.buyins = [Math.round(v*100)/100];
+  }
+  saveDraft(); tickLive();
+}
+function addLivePlayer(){
+  const name = prompt('Add a player to this game:');
+  if (!name || !name.trim()) return;
+  const trimmed = name.trim();
+  addNameToRoster(trimmed);
+  state.players.push(makeNewPlayer(trimmed));
+  saveDraft(); tickLive();
+}
+function seatDraw(){
+  if (state.players.length < 2){ alert('Add at least 2 players first.'); return; }
+  const shuffled = [...state.players].sort(() => Math.random() - 0.5);
+  alert('Seat draw:\n' + shuffled.map((p,i) => ('Seat ' + (i+1) + ': ' + p.name)).join('\n'));
+}
+
+/* ---- bomb pot ---- */
+function renderBombPotCard(now){
+  if (!state.bombPot) state.bombPot = { durationSec: 1800, remainingSec: 1800, running: false, lastTickAt: null, alerted: false };
+  const bp = state.bombPot;
+  if (bp.running && bp.lastTickAt){
+    const delta = (now - bp.lastTickAt) / 1000;
+    bp.remainingSec = Math.max(0, bp.remainingSec - delta);
+    bp.lastTickAt = now;
+    if (bp.remainingSec <= 0 && !bp.alerted){ bp.alerted = true; bp.running = false; triggerBombPotAlert(); }
+  }
+  const mm = Math.floor(bp.remainingSec / 60), ss = Math.floor(bp.remainingSec % 60);
+  const timeStr = String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+  const ringing = bp.alerted && bp.remainingSec <= 0;
+  document.getElementById('bombPotCard').innerHTML =
+    '<div style="display:flex; justify-content:space-between; align-items:center;" class="' + (ringing ? 'ringing' : '') + '">' +
+    '<div><div style="font-weight:700;' + (ringing ? 'color:var(--bad);' : '') + '">' + (ringing ? 'BOMB POT! Deal it.' : 'Bomb Pot') + '</div>' +
+    '<div class="hint" style="margin:2px 0 0;">' + (ringing ? 'Tap Reset when the hand is done.' : 'NOTIFICATION ALERT') + '</div>' +
+    '<div style="font-size:1.6rem; font-weight:800; margin-top:6px;' + (ringing ? 'color:var(--bad);' : '') + '">' + timeStr + '</div></div>' +
+    '<div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">' +
+    (ringing
+      ? '<button class="cta" style="background:var(--bad); padding:10px 16px;" onclick="resetBombPot()">Reset</button>'
+      : '<button class="cta" style="padding:10px 16px;" onclick="toggleBombPot()">' + (bp.running ? 'Pause' : 'Start') + '</button>') +
+    '<button class="lp-icon-btn" onclick="editBombPotDuration()" title="Settings">&#9881;</button>' +
+    '</div></div>';
+}
+function toggleBombPot(){
+  const bp = state.bombPot;
+  if (bp.remainingSec <= 0){ bp.remainingSec = bp.durationSec; bp.alerted = false; }
+  bp.running = !bp.running;
+  bp.lastTickAt = bp.running ? Date.now() : null;
+  saveDraft();
+}
+function resetBombPot(){
+  const bp = state.bombPot;
+  bp.remainingSec = bp.durationSec; bp.running = false; bp.alerted = false; bp.lastTickAt = null;
+  saveDraft();
+}
+function editBombPotDuration(){
+  const bp = state.bombPot;
+  const mins = prompt('Bomb Pot interval, in minutes:', Math.round(bp.durationSec / 60));
+  const v = parseFloat(mins);
+  if (!isNaN(v) && v > 0){ bp.durationSec = v * 60; bp.remainingSec = bp.durationSec; bp.running = false; bp.alerted = false; bp.lastTickAt = null; saveDraft(); }
+}
+function triggerBombPotAlert(){
+  try{ if (navigator.vibrate) navigator.vibrate([200,100,200,100,200]); }catch(e){}
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value = 880; g.gain.value = 0.15;
+    o.start(); setTimeout(() => { o.stop(); ctx.close(); }, 400);
+  }catch(e){}
+}
+
+/* ---- game expenses ---- */
+function renderExpensesCard(){
+  const list = state.expenses || [];
+  const total = list.reduce((s,e) => s + e.amount, 0);
+  document.getElementById('expensesCard').innerHTML =
+    '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+    '<div><div style="font-weight:700;">Game Expenses</div><div class="hint" style="margin:2px 0 0;">Split table costs and include them in final payouts.</div></div>' +
+    '<button class="secondary" style="border-color:var(--accent); color:var(--accent);" onclick="addExpense()">+ Add</button></div>' +
+    (list.length ? '<div style="margin-top:12px;">' + list.map(e =>
+      '<div class="expense-row"><span>' + escapeHtml(e.description) + ' <span class="hint" style="margin:0;">(paid by ' + escapeHtml(e.paidBy || '—') + ')</span></span>' +
+      '<span>$' + e.amount.toFixed(2) + ' <button class="rm-btn" onclick="removeExpense(\'' + e.id + '\')">&times;</button></span></div>'
+    ).join('') + '<div class="summary-line" style="margin-top:6px;"><span>Total</span><b>$' + total.toFixed(2) + '</b></div></div>' : '');
+}
+function addExpense(){
+  const desc = prompt('What was it for? (e.g. Pizza)');
+  if (!desc || !desc.trim()) return;
+  const amtStr = prompt('Amount ($)?');
+  const amt = parseFloat(amtStr);
+  if (isNaN(amt) || amt <= 0){ alert('Enter a valid amount.'); return; }
+  const names = state.players.map(p => p.name).join(', ');
+  const paidBy = prompt('Who paid for it? (' + names + ')', state.players[0] ? state.players[0].name : '');
+  (state.expenses = state.expenses || []).push({ id: 'e_' + Date.now(), description: desc.trim(), amount: Math.round(amt*100)/100, paidBy: (paidBy || '').trim() });
+  saveDraft(); tickLive();
+}
+function removeExpense(id){
+  state.expenses = (state.expenses || []).filter(e => e.id !== id);
+  saveDraft(); tickLive();
+}
+function computeExpenseAdjustments(players, expenses){
+  const n = players.length || 1;
+  const adj = {};
+  players.forEach(p => adj[p.name] = 0);
+  let total = 0;
+  (expenses || []).forEach(e => {
+    total += e.amount;
+    const share = e.amount / n;
+    players.forEach(p => { adj[p.name] -= share; });
+    if (Object.prototype.hasOwnProperty.call(adj, e.paidBy)) adj[e.paidBy] += e.amount;
+  });
+  return { adj, total: Math.round(total*100)/100 };
+}
+
+/* ================= count chips screen ================= */
+function endGameAndCountChips(){
+  clearInterval(window.__liveInterval);
+  state.phase = 'countchips';
+  saveDraft();
+  goTo('countchips');
+  renderCountChips();
+}
+function renderCountChips(){
+  document.getElementById('ccBankHeader').textContent = state.bankMode ? 'Bank' : '';
+  document.getElementById('ccRows').innerHTML = state.players.map(p => {
+    const total = sumArr(p.buyins);
+    return '<tr data-id="' + p.id + '">' +
+      '<td>' + escapeHtml(p.name) + '</td>' +
+      '<td>$' + total.toFixed(2) + ' <span class="hint" style="margin:0;">(' + p.buyins.length + ')</span></td>' +
+      '<td><input type="text" inputmode="decimal" class="money cc-cashout" placeholder="0" value="' + (p.cashout != null ? p.cashout : '') + '"></td>' +
+      '<td class="net-cell" id="cc-net-' + p.id + '">—</td>' +
+      '<td style="text-align:center;"><input type="radio" name="ccBank" class="bank-radio" ' + (state.bankName === p.name ? 'checked' : '') + '></td>' +
+      '</tr>';
+  }).join('');
+  document.querySelectorAll('#ccRows tr').forEach(tr => {
+    const inp = tr.querySelector('.cc-cashout');
+    inp.addEventListener('input', () => updateCcNet(inp));
+    tr.querySelector('.bank-radio').addEventListener('change', syncBankFromCc);
+    updateCcNet(inp);
+  });
+}
+function updateCcNet(inp){
+  const tr = inp.closest('tr');
+  const id = tr.dataset.id;
+  const p = state.players.find(x => x.id === id);
+  const cashout = parseAmount(inp.value);
+  const cell = document.getElementById('cc-net-' + id);
+  if (isNaN(cashout)){ cell.textContent = '—'; cell.className = 'net-cell'; return; }
+  p.cashout = cashout;
+  const net = Math.round((cashout - sumArr(p.buyins)) * 100) / 100;
+  cell.textContent = (net >= 0 ? '+' : '-') + '$' + Math.abs(net).toFixed(2);
+  cell.className = 'net-cell ' + (net >= 0 ? 'net-pos' : 'net-neg');
+  saveDraft();
+}
+function syncBankFromCc(){
+  document.querySelectorAll('#ccRows tr').forEach(tr => {
+    const p = state.players.find(x => x.id === tr.dataset.id);
+    if (p) p.isBank = tr.querySelector('.bank-radio').checked;
+  });
+  const bank = state.players.find(p => p.isBank);
+  state.bankName = bank ? bank.name : '';
+  saveDraft();
+}
 function parseAmount(str){
   if (!str) return 0;
   const parts = String(str).split('+');
   let total = 0;
   for (const p of parts){ const v = parseFloat(p.trim()); if (isNaN(v)) return NaN; total += v; }
   return Math.round(total * 100) / 100;
-}
-function renderBankColumn(){
-  document.getElementById('bankColHeader').textContent = state.bankMode ? 'Bank' : '';
-  document.getElementById('bankHintText').textContent = state.bankMode ? 'Bank Mode is on — mark which player is the bank below.' : '';
-  document.querySelectorAll('#rows tr').forEach(tr => {
-    const cell = tr.querySelector('.bank-cell');
-    if (cell) cell.style.visibility = state.bankMode ? 'visible' : 'hidden';
-  });
-}
-function addRow(prefill){
-  rowId++;
-  const tbody = document.getElementById('rows');
-  const tr = document.createElement('tr');
-  tr.dataset.id = rowId;
-  const p = prefill || {};
-  tr.innerHTML =
-    '<td><input type="text" placeholder="Name" value="' + escapeHtml(p.name || '') + '" class="name-input" list="knownPlayers"></td>' +
-    '<td><input type="text" inputmode="decimal" placeholder="0" class="money buyin-input" value="' + (p.buyin != null ? p.buyin : (state.buyInDefault || '')) + '"></td>' +
-    '<td><input type="text" inputmode="decimal" placeholder="0" class="money cashout-input" value="' + (p.cashout != null ? p.cashout : '') + '"></td>' +
-    '<td class="net-cell">—</td>' +
-    '<td class="bank-cell" style="visibility:' + (state.bankMode ? 'visible' : 'hidden') + '; text-align:center;"><input type="radio" name="bankPick" class="bank-radio" ' + (state.bankName && p.name === state.bankName ? 'checked' : '') + '></td>' +
-    '<td><button class="rm-btn" onclick="removeRow(this)" title="Remove player">&times;</button></td>';
-  tbody.appendChild(tr);
-  tr.querySelectorAll('input[type=text]').forEach(inp => inp.addEventListener('input', () => { updateNet(tr); syncPlayersToState(); }));
-  tr.querySelector('.bank-radio').addEventListener('change', () => { syncPlayersToState(); });
-  updateNet(tr);
-}
-function removeRow(btn){ btn.closest('tr').remove(); syncPlayersToState(); }
-function updateNet(tr){
-  const buyin = parseAmount(tr.querySelector('.buyin-input').value);
-  const cashout = parseAmount(tr.querySelector('.cashout-input').value);
-  const cell = tr.querySelector('.net-cell');
-  if (isNaN(buyin) || isNaN(cashout)){ cell.textContent = '—'; cell.className = 'net-cell'; return; }
-  const net = Math.round((cashout - buyin) * 100) / 100;
-  cell.textContent = (net >= 0 ? '+' : '-') + '$' + Math.abs(net).toFixed(2);
-  cell.className = 'net-cell ' + (net >= 0 ? 'net-pos' : 'net-neg');
-}
-function collectPlayers(){
-  const players = [];
-  document.querySelectorAll('#rows tr').forEach(tr => {
-    const name = tr.querySelector('.name-input').value.trim();
-    const buyin = parseAmount(tr.querySelector('.buyin-input').value);
-    const cashout = parseAmount(tr.querySelector('.cashout-input').value);
-    const isBank = tr.querySelector('.bank-radio').checked;
-    if (!name && !buyin && !cashout) return;
-    players.push({ name: name || 'Unnamed', buyin: buyin || 0, cashout: cashout || 0, isBank });
-  });
-  return players;
-}
-function syncPlayersToState(){
-  state.players = collectPlayers();
-  const bank = state.players.find(p => p.isBank);
-  state.bankName = bank ? bank.name : '';
-  saveDraft();
 }
 
 /* ================= settlement math ================= */
@@ -767,16 +1004,22 @@ function settleViaBank(nets, bankName){
   return { toBank, fromBank };
 }
 function computeSettlement(){
-  syncPlayersToState();
   const players = state.players;
   let sumBuyin = 0, sumCashout = 0;
-  const nets = players.map(p => { sumBuyin += p.buyin; sumCashout += p.cashout; return { name: p.name, amount: Math.round((p.cashout - p.buyin)*100)/100 }; });
+  const baseNets = players.map(p => { const b = sumArr(p.buyins); const c = p.cashout || 0; sumBuyin += b; sumCashout += c; return { name: p.name, amount: Math.round((c-b)*100)/100 }; });
   sumBuyin = Math.round(sumBuyin*100)/100; sumCashout = Math.round(sumCashout*100)/100;
   const diff = Math.round((sumCashout - sumBuyin)*100)/100;
+
+  const { adj, total: expensesTotal } = computeExpenseAdjustments(players, state.expenses || []);
+  const nets = baseNets.map(n => ({ name: n.name, amount: Math.round((n.amount + (adj[n.name] || 0)) * 100) / 100 }));
+
   let payments, bankSplit = null;
   if (state.bankMode && state.bankName){ bankSplit = settleViaBank(nets, state.bankName); payments = bankSplit.toBank.concat(bankSplit.fromBank); }
   else { payments = settleDebts(nets); }
-  return { players, nets, sumBuyin, sumCashout, diff, payments, bankSplit };
+  return {
+    players: players.map(p => ({ name: p.name, buyin: sumArr(p.buyins), cashout: p.cashout || 0 })),
+    nets, sumBuyin, sumCashout, diff, payments, bankSplit, expensesTotal
+  };
 }
 function paymentCardHTML(p){
   return '<div class="payment"><span>' + escapeHtml(p.from) + '</span><span class="arrow">pays</span><span class="amt">$' + p.amount.toFixed(2) + '</span><span class="arrow">to</span><span>' + escapeHtml(p.to) + '</span></div>';
@@ -784,7 +1027,7 @@ function paymentCardHTML(p){
 function calculate(){
   const result = computeSettlement();
   if (result.players.length < 2){
-    document.getElementById('balanceMsg').innerHTML = '<div class="warn">Add at least two players with amounts first.</div>';
+    document.getElementById('balanceMsg').innerHTML = '<div class="warn">Add at least two players first.</div>';
     return;
   }
   document.getElementById('balanceMsg').innerHTML = '';
@@ -792,13 +1035,16 @@ function calculate(){
   goTo('results');
 }
 function renderResultsScreen(result){
-  const { players, nets, sumBuyin, sumCashout, diff, payments, bankSplit } = result;
+  const { players, nets, sumBuyin, sumCashout, diff, payments, bankSplit, expensesTotal } = result;
   document.getElementById('resultsHeading').textContent = state.gameName + ' — Settlement';
   document.getElementById('breadcrumbResults').innerHTML = breadcrumbHTML();
   document.getElementById('sumBuyin').textContent = '$' + sumBuyin.toFixed(2);
   document.getElementById('sumCashout').textContent = '$' + sumCashout.toFixed(2);
+  const expLine = document.getElementById('expensesLine');
+  if (expensesTotal > 0){ expLine.style.display = 'flex'; document.getElementById('sumExpenses').textContent = '$' + expensesTotal.toFixed(2); }
+  else { expLine.style.display = 'none'; }
   document.getElementById('balanceMsgResults').innerHTML = Math.abs(diff) > 0.01
-    ? '<div class="warn">Off by $' + Math.abs(diff).toFixed(2) + ' — double check the chip counts before settling.</div>'
+    ? '<div class="warn">Buy-ins and cash-outs are off by $' + Math.abs(diff).toFixed(2) + ' — double check the chip counts before settling.</div>'
     : '<div class="ok">Buy-ins and cash-outs balance. Ready to settle.</div>';
 
   const paymentsEl = document.getElementById('payments');
@@ -813,9 +1059,9 @@ function renderResultsScreen(result){
     paymentsEl.innerHTML = html;
   }
   const summaryPaymentsText = payments.map(p => p.from + ' pays ' + p.to + ' $' + p.amount.toFixed(2)).join('\n');
-  buildSummaryText(players, nets, sumBuyin, sumCashout, summaryPaymentsText);
+  buildSummaryText(players, nets, sumBuyin, sumCashout, summaryPaymentsText, expensesTotal);
 }
-function buildSummaryText(players, nets, sumBuyin, sumCashout, paymentsText){
+function buildSummaryText(players, nets, sumBuyin, sumCashout, paymentsText, expensesTotal){
   const dt = state.dateTimeISO ? new Date(state.dateTimeISO).toLocaleString() : new Date().toLocaleString();
   let s = state.gameName + '\n';
   s += (state.format === 'online' ? 'Online' : 'In Person') + ' • ' + state.stakes + ' • ' + dt + (state.location ? ' • ' + state.location : '') + '\n';
@@ -826,6 +1072,7 @@ function buildSummaryText(players, nets, sumBuyin, sumCashout, paymentsText){
   });
   s += '-'.repeat(36) + '\n';
   s += 'Total buy-in $' + sumBuyin.toFixed(2) + ' / total cash-out $' + sumCashout.toFixed(2) + '\n';
+  if (expensesTotal > 0) s += 'Game expenses: $' + expensesTotal.toFixed(2) + ' (already included in nets above)\n';
   s += '-'.repeat(36) + '\n';
   s += (paymentsText && paymentsText.trim()) ? paymentsText.trim() + '\n' : 'No payments needed — everyone even.\n';
   document.getElementById('summaryText').value = s;
@@ -852,7 +1099,7 @@ function saveGameToHistory(){
     dateTimeISO: state.dateTimeISO || new Date().toISOString(), location: state.location,
     bankMode: state.bankMode, bankName: state.bankName,
     players: result.players.map((p, idx) => ({ name: p.name, buyin: p.buyin, cashout: p.cashout, net: result.nets[idx].amount })),
-    sumBuyin: result.sumBuyin, sumCashout: result.sumCashout,
+    sumBuyin: result.sumBuyin, sumCashout: result.sumCashout, expensesTotal: result.expensesTotal,
     summaryText: document.getElementById('summaryText').value,
     savedAt: new Date().toISOString()
   };
@@ -860,35 +1107,13 @@ function saveGameToHistory(){
   history.unshift(record);
   saveHistory(history);
   clearDraft();
-  state.players = [];
-  document.getElementById('rows').innerHTML = '';
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup';
   switchTab('games');
-}
-function discardGame(){
-  if (!confirm('Discard this game without saving? This cannot be undone.')) return;
-  clearDraft();
-  state.players = [];
-  document.getElementById('rows').innerHTML = '';
-  switchTab('dashboard');
 }
 
 /* ================= init ================= */
-function applyStateToSetupForm(){
-  document.getElementById('gameName').value = state.gameName || '';
-  setFormat(state.format);
-  renderStakes();
-  renderBuyin();
-  renderDatePills();
-  if (state.dateTimeISO) document.getElementById('dateTimeInput').value = toLocalInputValue(new Date(state.dateTimeISO));
-  document.getElementById('locationInput').value = state.location || '';
-  document.getElementById('bankSwitch').className = 'switch' + (state.bankMode ? ' on' : '');
-  document.getElementById('bankCard').className = 'toggle-card' + (state.bankMode ? ' active' : '');
-  document.getElementById('rememberSwitch').className = 'switch' + (state.remember ? ' on' : '');
-}
-
 loadSettings();
 applyStateToSetupForm();
-renderKnownPlayersDatalist();
 switchTab('dashboard');
 </script>
 </body>
