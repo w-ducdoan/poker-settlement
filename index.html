@@ -189,6 +189,16 @@
   .show-more-link{background:none; border:none; color:var(--muted); font-size:.78rem; cursor:pointer; width:100%; text-align:center; padding:10px 0 0;}
   .history-entry{border:1px solid var(--line-soft); background:var(--input-bg); border-radius:10px; padding:10px 12px; margin-top:8px; font-size:.8rem;}
   .history-entry-time{color:var(--muted); font-size:.72rem; margin-bottom:4px;}
+
+  /* standings extras */
+  .segrow{display:flex; gap:4px; background:var(--card2); border:1px solid var(--line); border-radius:999px; padding:4px;}
+  .segbtn{flex:1; text-align:center; padding:10px 4px; border-radius:999px; font-size:.85rem; font-weight:600; color:var(--muted); cursor:pointer;}
+  .segbtn.active{background:var(--accent); color:var(--accent-ink);}
+  .player-chip{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:999px; padding:7px 14px; font-size:.82rem; cursor:pointer; margin:0 8px 8px 0; color:var(--muted);}
+  .player-chip .dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+  .player-chip.active{color:var(--ink);}
+  .rank-row{display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--line); background:var(--card2); border-radius:12px; margin-top:10px;}
+  .rank-row.leader{border-color:var(--good); background:rgba(47,230,160,.06);}
 </style>
 </head>
 <body>
@@ -207,10 +217,13 @@
   </div>
 
   <div class="tabview" id="view-games">
-    <h1>Games</h1>
-    <p class="sub">Every game you've saved.</p>
-    <div class="row-actions" style="margin-top:14px;"><button class="secondary" onclick="startNewGame()">+ New Game</button></div>
-    <div id="gamesList"></div>
+    <div id="gamesListView">
+      <h1>Games</h1>
+      <p class="sub">Every game you've saved.</p>
+      <div class="row-actions" style="margin-top:14px;"><button class="secondary" onclick="startNewGame()">+ New Game</button></div>
+      <div id="gamesList"></div>
+    </div>
+    <div id="gameDetailView" style="display:none;"></div>
   </div>
 
   <div class="tabview" id="view-insights">
@@ -221,8 +234,13 @@
 
   <div class="tabview" id="view-standings">
     <h1>Standings</h1>
-    <p class="sub">Cumulative net across every saved game.</p>
-    <div id="standingsWrap"></div>
+    <p class="sub" id="standingsSub">Cumulative net across every saved game.</p>
+    <button class="cta-inline" style="width:100%; margin-top:8px; background:rgba(47,230,160,.12); color:var(--accent); border:1px solid var(--line);" onclick="shareStandings()">&#128279; Share Standings with Group</button>
+    <div class="segrow" style="margin-top:16px;" id="standingsFilterRow"></div>
+    <div class="section-label" style="margin-top:22px;">Performance Comparison</div>
+    <p class="section-sub">Compare selected players and see how results trend over time.</p>
+    <div id="perfComparisonCard"></div>
+    <div id="standingsWrap" style="margin-top:16px;"></div>
   </div>
 </div>
 
@@ -380,6 +398,10 @@
     <textarea id="summaryText" style="display:none;"></textarea>
   </section>
 
+  <section class="screen" id="screen-gameover">
+    <div id="gameOverBody"></div>
+  </section>
+
 </div>
 
 <div class="actionbar" id="actionbar" style="display:none;"></div>
@@ -401,7 +423,7 @@ let state = {
   gameName: '', format: 'in-person', stakes: STAKE_PRESETS[0], buyInDefault: 5,
   dateTimeISO: '', location: '', bankMode: false, bankName: '', remember: true,
   phase: 'setup', players: [], expenses: [], bombPot: null, gameStartedAt: null,
-  ccStep: 0, paymentsPaid: {}, activity: [], chipCountLogs: []
+  ccStep: 0, paymentsPaid: {}, activity: [], chipCountLogs: [], gameEndedAt: null
 };
 
 /* ================= persistence: settings / roster / draft / history ================= */
@@ -489,6 +511,8 @@ function renderDashboard(){
 
 /* ================= games tab ================= */
 function renderGames(){
+  document.getElementById('gamesListView').style.display = 'block';
+  document.getElementById('gameDetailView').style.display = 'none';
   const list = document.getElementById('gamesList');
   const history = loadHistory();
   if (!history.length){ list.innerHTML = '<p class="hint" style="margin-top:16px;">No games saved yet — finish a game and hit "Save &amp; finish" to see it here.</p>'; return; }
@@ -497,12 +521,159 @@ function renderGames(){
     return '<div class="game-card">' +
       '<div class="game-card-head"><b>' + escapeHtml(g.gameName) + '</b><button class="rm-btn" onclick="deleteHistoryEntry(\'' + g.id + '\')" title="Delete">&times;</button></div>' +
       '<div class="game-card-meta">' + dt + ' &bull; ' + escapeHtml(g.stakes) + ' &bull; ' + g.players.length + ' players &bull; pot $' + g.sumBuyin.toFixed(2) + '</div>' +
-      '<button class="secondary" style="margin-top:8px;" onclick="toggleGameDetail(\'' + g.id + '\')">View summary</button>' +
-      '<pre class="game-detail" id="detail-' + g.id + '" style="display:none;">' + escapeHtml(g.summaryText) + '</pre>' +
+      '<button class="secondary" style="margin-top:8px;" onclick="openGameDetail(\'' + g.id + '\')">View Details</button>' +
       '</div>';
   }).join('');
 }
-function toggleGameDetail(id){ const el = document.getElementById('detail-' + id); el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
+function getHistoryRecord(id){ return loadHistory().find(g => g.id === id); }
+function openGameDetail(id){
+  window.__currentDetailId = id;
+  document.getElementById('gamesListView').style.display = 'none';
+  document.getElementById('gameDetailView').style.display = 'block';
+  renderGameDetail(id);
+  window.scrollTo(0,0);
+}
+function closeGameDetail(){
+  window.__currentDetailId = null;
+  renderGames();
+  window.scrollTo(0,0);
+}
+function renderGameDetail(id){
+  const record = getHistoryRecord(id);
+  const view = document.getElementById('gameDetailView');
+  if (!record){ view.innerHTML = '<p class="hint">Game not found.</p><button class="secondary" onclick="closeGameDetail()">Back to Games</button>'; return; }
+  const fullPlayers = record.fullPlayers || null;
+  const totalBuyins = fullPlayers ? fullPlayers.reduce((s,p) => s + (p.buyins||[]).length, 0) : record.players.length;
+  const rebuyPlayers = fullPlayers ? fullPlayers.filter(p => (p.buyins||[]).length > 1) : [];
+  const totalRebuys = fullPlayers ? fullPlayers.reduce((s,p) => s + Math.max(0,(p.buyins||[]).length - 1), 0) : 0;
+  const dt = new Date(record.dateTimeISO).toLocaleDateString([], { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+  const startedStr = record.gameStartedAt ? new Date(record.gameStartedAt).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }) : '—';
+  const endedStr = record.gameEndedAt ? new Date(record.gameEndedAt).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }) : '—';
+  const durationStr = (record.gameStartedAt && record.gameEndedAt) ? formatDuration(record.gameEndedAt - record.gameStartedAt) : '—';
+
+  window.__gameDetailShareText = record.summaryText || '';
+
+  let html = '<button class="backlink" onclick="closeGameDetail()">&larr; Back to Games</button>';
+  html += '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-top:6px;">' +
+    '<div><h1 style="margin:0;">' + escapeHtml(record.gameName) + '</h1><p class="sub" style="margin:2px 0 0;">' + dt + '</p></div>' +
+    '<span class="crumb">finished</span></div>';
+  html += '<div class="stat-grid3" style="margin-top:16px;">' +
+    statBox(record.players.length, 'PLAYERS') + statBox('$' + (record.buyInDefault != null ? record.buyInDefault : '—'), 'BUY-IN', true) + statBox(totalBuyins, 'BUY-INS') +
+  '</div>';
+  html += '<div class="card hero" style="text-align:center;"><div class="hint" style="margin:0; color:var(--muted);">TOTAL POT</div>' +
+    '<div style="font-size:2rem; font-weight:800; color:var(--good); margin-top:4px;">$' + record.sumBuyin.toFixed(2) + '</div></div>';
+  if (totalRebuys > 0){
+    html += '<div class="card" style="border-color:var(--pro); background:rgba(232,179,76,.08);"><b style="color:var(--pro);">' + totalRebuys + ' rebuy' + (totalRebuys===1?'':'s') + '</b> <span class="hint" style="margin:0;">— ' + rebuyPlayers.map(p=>escapeHtml(p.name)).join(', ') + '</span></div>';
+  }
+  html += '<div class="banner warn-bg" style="flex-direction:column; align-items:flex-start; margin-top:16px;">' +
+    '<b>&#9888; Game Finished</b><span class="hint" style="margin:4px 0 12px;">Payouts calculated. Need to make changes? Reopen the game below.</span>' +
+    (fullPlayers ? '<button class="secondary" onclick="reopenGameToEdit(\'' + id + '\')">&#9881; Reopen Game to Edit</button>' : '<span class="hint" style="margin:0;">This game was saved before reopening was supported, so it can\'t be reopened.</span>') +
+  '</div>';
+
+  html += '<h2 style="margin-top:20px;">Players</h2>';
+  html += record.players.map(p => {
+    const fp = fullPlayers ? fullPlayers.find(x => x.name === p.name) : null;
+    const countLabel = fp ? ' (' + fp.buyins.length + ' buy-in' + (fp.buyins.length===1?'':'s') + ')' : '';
+    return '<div class="live-player" style="margin-top:10px;"><div class="live-player-head"><span class="avatar">' + escapeHtml(p.name.slice(0,1).toUpperCase()) + '</span>' +
+      '<div style="flex:1; display:flex; justify-content:space-between; align-items:center;"><div><div class="lp-name">' + escapeHtml(p.name) + ' <span class="crumb" style="font-size:.65rem;">Out</span></div>' +
+      '<div class="lp-meta">$' + p.buyin.toFixed(2) + countLabel + '</div></div>' +
+      '<b class="' + (p.net >= 0 ? 'net-pos' : 'net-neg') + '">' + (p.net >= 0 ? '+' : '-') + '$' + Math.abs(p.net).toFixed(2) + '</b></div></div></div>';
+  }).join('');
+
+  html += '<div class="card" style="margin-top:20px;"><div style="color:var(--accent); font-weight:700; font-size:.75rem; letter-spacing:.03em; text-transform:uppercase;">Post-Game Recap</div>' +
+    '<p class="hint" style="margin:4px 0 12px;">Share a recap with the full results.</p>' +
+    '<button class="cta-inline" style="width:100%;" onclick="shareOrCopyText(window.__gameDetailShareText, \'Recap\')">Share Game Recap</button></div>';
+
+  html += '<div class="card" style="margin-top:16px;"><h2 style="margin-top:0;">Game Details</h2>' +
+    '<p class="hint" style="margin-top:0;">Location and timing information</p>' +
+    '<div class="summary-line"><span>Format</span><b>' + (record.format === 'online' ? 'Online' : 'In Person') + '</b></div>' +
+    '<div class="summary-line"><span>Location</span><b>' + (record.location ? escapeHtml(record.location) : '—') + '</b></div>' +
+    '<div class="summary-line"><span>Started</span><b>' + startedStr + '</b></div>' +
+    '<div class="summary-line"><span>Ended</span><b>' + endedStr + '</b></div>' +
+    '<div class="summary-line"><span>Duration</span><b>' + durationStr + '</b></div>' +
+    '<button class="secondary" style="width:100%; margin-top:12px;" onclick="editGameTimes(\'' + id + '\')">&#9998; Edit Times</button>' +
+    '<button class="secondary" style="width:100%; margin-top:8px; color:var(--bad); border-color:var(--bad);" onclick="deleteGameFromDetail(\'' + id + '\')">&#128465; Delete Game</button>' +
+  '</div>';
+
+  html += '<div class="card" style="margin-top:16px;"><div class="section-label" style="margin-top:0;">Chip Count History</div>' +
+    renderChipCountHistoryForRecord(record) +
+  '</div>';
+
+  view.innerHTML = html;
+}
+function renderChipCountHistoryForRecord(record){
+  const logs = record.chipCountLogs || [];
+  if (!logs.length) return '<p class="hint" style="margin-top:0;">No chip count logs yet.</p>';
+  return logs.map((log, idx) => {
+    const t = new Date(log.at).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+    const line = log.entries.map(e => escapeHtml(e.name) + ' $' + (e.cashout != null ? e.cashout.toFixed(2) : '—')).join(', ');
+    return '<div class="history-entry" style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">' +
+      '<div><div class="history-entry-time">' + t + '</div>' + line + '</div>' +
+      '<button class="rm-btn" onclick="deleteChipCountLogEntry(\'' + record.id + '\', ' + idx + ')" title="Delete">&#128465;</button></div>';
+  }).reverse().join('');
+}
+function deleteChipCountLogEntry(gameId, idx){
+  const history = loadHistory();
+  const record = history.find(g => g.id === gameId);
+  if (!record || !record.chipCountLogs) return;
+  record.chipCountLogs.splice(idx, 1);
+  saveHistory(history);
+  renderGameDetail(gameId);
+}
+function editGameTimes(id){
+  const history = loadHistory();
+  const record = history.find(g => g.id === id);
+  if (!record) return;
+  const curStart = record.gameStartedAt ? new Date(record.gameStartedAt) : new Date();
+  const curEnd = record.gameEndedAt ? new Date(record.gameEndedAt) : new Date();
+  const startStr = prompt('Start time (YYYY-MM-DD HH:MM):', toLocalInputValue(curStart).replace('T', ' '));
+  if (startStr === null) return;
+  const endStr = prompt('End time (YYYY-MM-DD HH:MM):', toLocalInputValue(curEnd).replace('T', ' '));
+  if (endStr === null) return;
+  const newStart = new Date(startStr.replace(' ', 'T'));
+  const newEnd = new Date(endStr.replace(' ', 'T'));
+  if (isNaN(newStart.getTime()) || isNaN(newEnd.getTime())){ alert('Could not parse those times. Use format YYYY-MM-DD HH:MM.'); return; }
+  record.gameStartedAt = newStart.getTime();
+  record.gameEndedAt = newEnd.getTime();
+  saveHistory(history);
+  renderGameDetail(id);
+}
+function deleteGameFromDetail(id){
+  if (!confirm('Delete this game from history? This cannot be undone.')) return;
+  saveHistory(loadHistory().filter(g => g.id !== id));
+  renderInsights(); renderStandings(); renderDashboard();
+  closeGameDetail();
+}
+function reopenGameToEdit(id){
+  const record = getHistoryRecord(id);
+  if (!record || !record.fullPlayers){ alert('This game cannot be reopened.'); return; }
+  if (!confirm('Reopen "' + record.gameName + '"? It will be removed from your saved games until you save it again.')) return;
+  saveHistory(loadHistory().filter(g => g.id !== id));
+  state.gameName = record.gameName;
+  state.format = record.format;
+  state.stakes = record.stakes;
+  state.buyInDefault = record.buyInDefault != null ? record.buyInDefault : state.buyInDefault;
+  state.dateTimeISO = record.dateTimeISO;
+  state.location = record.location;
+  state.bankMode = record.bankMode;
+  state.bankName = record.bankName;
+  state.players = JSON.parse(JSON.stringify(record.fullPlayers));
+  state.expenses = JSON.parse(JSON.stringify(record.expenses || []));
+  state.activity = JSON.parse(JSON.stringify(record.activity || []));
+  state.chipCountLogs = JSON.parse(JSON.stringify(record.chipCountLogs || []));
+  state.bombPot = { durationSec: 1800, remainingSec: 1800, running: false, lastTickAt: null, alerted: false };
+  state.gameStartedAt = record.gameStartedAt;
+  state.gameEndedAt = record.gameEndedAt;
+  state.phase = 'countchips';
+  state.ccStep = 0;
+  state.paymentsPaid = {};
+  playerCounter += state.players.length;
+  saveDraft();
+  setMode('wizard');
+  applyStateToSetupForm();
+  goTo('countchips');
+  renderCountChips();
+}
 
 /* ================= insights tab ================= */
 function statCard(label, value){ return '<div class="stat-card"><div class="stat-label">' + label + '</div><div class="stat-value">' + value + '</div></div>'; }
@@ -535,21 +706,153 @@ function renderInsights(){
 }
 
 /* ================= standings tab ================= */
-function renderStandings(){
-  const wrap = document.getElementById('standingsWrap');
-  const history = loadHistory();
+const PERF_COLORS = ['#2fe6a0','#ef7a6d','#4f9dff','#b57bff','#e8b34c','#3fd0c9','#ff8fd1','#c9d15a'];
+function perfColor(i){ return PERF_COLORS[i % PERF_COLORS.length]; }
+function computeStandingsRows(history){
   const agg = {};
   history.forEach(g => g.players.forEach(p => {
     const key = p.name.trim().toLowerCase();
     if (!agg[key]) agg[key] = { name: p.name, net: 0, games: 0 };
     agg[key].net += p.net; agg[key].games++;
   }));
-  const rows = Object.values(agg).sort((a,b) => b.net - a.net);
-  if (!rows.length){ wrap.innerHTML = '<p class="hint" style="margin-top:16px;">No games saved yet — standings build up as you save games.</p>'; return; }
-  wrap.innerHTML = '<table><thead><tr><th>Player</th><th style="text-align:right;">Games</th><th style="text-align:right;">Net</th></tr></thead><tbody>' +
-    rows.map(r => '<tr><td>' + escapeHtml(r.name) + '</td><td style="text-align:right;">' + r.games + '</td>' +
-      '<td class="net-cell ' + (r.net >= 0 ? 'net-pos' : 'net-neg') + '" style="text-align:right;">' + (r.net >= 0 ? '+' : '-') + '$' + Math.abs(r.net).toFixed(2) + '</td></tr>').join('') +
-    '</tbody></table><p class="hint">Names are matched case-insensitively — spell each player the same way every game so they stay one row.</p>';
+  return Object.values(agg).sort((a,b) => b.net - a.net);
+}
+function setStandingsFilter(f){
+  window.__standingsFilter = f;
+  window.__perfSelected = null;
+  renderStandings();
+}
+function renderStandingsFilterRow(){
+  const filter = window.__standingsFilter || 'all';
+  document.getElementById('standingsFilterRow').innerHTML = ['all','cash','tournament'].map(f =>
+    '<div class="segbtn' + (filter === f ? ' active' : '') + '" onclick="setStandingsFilter(\'' + f + '\')">' + (f==='all'?'All':f==='cash'?'Cash':'Tournament') + '</div>'
+  ).join('');
+}
+function currentStandingsHistory(){
+  const filter = window.__standingsFilter || 'all';
+  return filter === 'tournament' ? [] : loadHistory();
+}
+function shareStandings(){
+  const rows = computeStandingsRows(currentStandingsHistory());
+  if (!rows.length){ alert('No standings yet to share.'); return; }
+  const text = 'Standings\n' + rows.map((r,i) => (i+1) + '. ' + r.name + ' — ' + (r.net>=0?'+':'-') + '$' + Math.abs(r.net).toFixed(2) + ' (' + r.games + ' games)').join('\n');
+  shareOrCopyText(text, 'Standings');
+}
+function togglePerfPlayer(name){
+  if (!window.__perfSelected) window.__perfSelected = new Set();
+  if (window.__perfSelected.has(name)) window.__perfSelected.delete(name); else window.__perfSelected.add(name);
+  renderPerfComparisonCard();
+}
+function selectAllPerfPlayers(){
+  window.__perfSelected = new Set(computeStandingsRows(currentStandingsHistory()).map(r => r.name));
+  renderPerfComparisonCard();
+}
+function clearPerfPlayers(){
+  window.__perfSelected = new Set();
+  renderPerfComparisonCard();
+}
+function renderPerfComparisonCard(){
+  const container = document.getElementById('perfComparisonCard');
+  const history = currentStandingsHistory();
+  const rows = computeStandingsRows(history);
+  if (!rows.length){
+    container.innerHTML = '<div class="card"><p class="hint" style="margin:0;">Save a couple of games to compare player performance here.</p></div>';
+    return;
+  }
+  if (!window.__perfSelected) window.__perfSelected = new Set(rows.slice(0,3).map(r => r.name));
+  const selected = window.__perfSelected;
+  const chipsHtml = rows.map((r,i) => {
+    const active = selected.has(r.name);
+    const color = perfColor(i);
+    return '<span class="player-chip' + (active ? ' active' : '') + '" style="' + (active ? 'border-color:' + color + ';' : '') + '" onclick="togglePerfPlayer(' + JSON.stringify(r.name).replace(/"/g, '&quot;') + ')">' +
+      '<span class="dot" style="background:' + color + ';"></span>' + escapeHtml(r.name) + '</span>';
+  }).join('');
+  container.innerHTML = '<div class="card">' +
+    '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">' +
+      '<div><div style="font-weight:700;">&#8599; Performance Comparison</div>' +
+      '<div class="hint" style="margin:2px 0 0;">Select players to compare profit trends</div></div>' +
+      '<div style="display:flex; gap:6px; flex-shrink:0;"><button class="secondary" style="padding:6px 12px; font-size:.75rem;" onclick="selectAllPerfPlayers()">All</button>' +
+      '<button class="secondary" style="padding:6px 12px; font-size:.75rem;" onclick="clearPerfPlayers()">Clear</button></div>' +
+    '</div>' +
+    '<p class="hint" style="margin:10px 0 6px;">&#128101; ' + selected.size + ' of ' + rows.length + ' selected</p>' +
+    '<div>' + chipsHtml + '</div>' +
+    buildPerfChartSVG(Array.from(selected), history, rows) +
+  '</div>';
+}
+function buildPerfChartSVG(selectedNames, history, rows){
+  if (!selectedNames.length) return '<p class="hint" style="margin-top:12px;">Select at least one player to see their trend.</p>';
+  const colorMap = {};
+  rows.forEach((r, i) => colorMap[r.name] = perfColor(i));
+  const series = selectedNames.map(name => {
+    const pts = [];
+    history.forEach(g => {
+      const p = g.players.find(pl => pl.name.trim().toLowerCase() === name.trim().toLowerCase());
+      if (p) pts.push({ date: new Date(g.dateTimeISO).getTime(), net: p.net });
+    });
+    pts.sort((a,b) => a.date - b.date);
+    return { name, color: colorMap[name] || '#888', pts };
+  }).filter(s => s.pts.length);
+
+  if (!series.length) return '<p class="hint" style="margin-top:12px;">No games yet for the selected players.</p>';
+
+  const W = 400, H = 220, padL = 42, padR = 12, padT = 12, padB = 26;
+  const allPts = series.flatMap(s => s.pts);
+  const allDates = Array.from(new Set(allPts.map(p => p.date))).sort((a,b) => a - b);
+  let minY = Math.min(0, ...allPts.map(p => p.net));
+  let maxY = Math.max(0, ...allPts.map(p => p.net));
+  if (minY === maxY){ minY -= 5; maxY += 5; }
+  const padY = (maxY - minY) * 0.15 || 5;
+  minY -= padY; maxY += padY;
+
+  const xFor = (date) => allDates.length === 1 ? padL + (W - padL - padR) / 2 : padL + (allDates.indexOf(date) / (allDates.length - 1)) * (W - padL - padR);
+  const yFor = (net) => padT + (1 - (net - minY) / (maxY - minY)) * (H - padT - padB);
+
+  let gridSvg = '';
+  const ticks = 4;
+  for (let i = 0; i <= ticks; i++){
+    const val = minY + (maxY - minY) * i / ticks;
+    const y = yFor(val);
+    gridSvg += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y + '" stroke="var(--line-soft)" stroke-dasharray="3,3" />';
+    gridSvg += '<text x="' + (padL - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" fill="var(--muted)">$' + Math.round(val) + '</text>';
+  }
+  const xLabelsSvg = allDates.map(d => '<text x="' + xFor(d) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="10" fill="var(--muted)">' +
+    new Date(d).toLocaleDateString([], { month: '2-digit', day: '2-digit' }) + '</text>').join('');
+  const seriesSvg = series.map(s => {
+    const pathD = s.pts.map((p,i) => (i === 0 ? 'M' : 'L') + xFor(p.date) + ',' + yFor(p.net)).join(' ');
+    const dots = s.pts.map(p => '<circle cx="' + xFor(p.date) + '" cy="' + yFor(p.net) + '" r="5" fill="' + s.color + '" stroke="#0b1210" stroke-width="2" />').join('');
+    const line = s.pts.length > 1 ? '<path d="' + pathD + '" fill="none" stroke="' + s.color + '" stroke-width="2" opacity="0.75" />' : '';
+    return line + dots;
+  }).join('');
+
+  return '<div style="overflow-x:auto; margin-top:8px;"><svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%; height:220px; min-width:320px;">' +
+    '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (H - padB) + '" stroke="var(--line)" />' +
+    '<line x1="' + padL + '" y1="' + (H - padB) + '" x2="' + (W - padR) + '" y2="' + (H - padB) + '" stroke="var(--line)" />' +
+    gridSvg + xLabelsSvg + seriesSvg +
+    '</svg></div>';
+}
+function renderStandings(){
+  renderStandingsFilterRow();
+  const history = currentStandingsHistory();
+  const rows = computeStandingsRows(history);
+  const wrap = document.getElementById('standingsWrap');
+  const sub = document.getElementById('standingsSub');
+  const filter = window.__standingsFilter || 'all';
+  if (!rows.length){
+    sub.textContent = filter === 'tournament' ? 'No tournament games tracked yet.' : 'Cumulative net across every saved game.';
+    wrap.innerHTML = '<p class="hint" style="margin-top:16px;">' + (filter === 'tournament'
+      ? 'This tool tracks cash games only right now — tournament tracking may come later.'
+      : 'No games saved yet — standings build up as you save games.') + '</p>';
+    document.getElementById('perfComparisonCard').innerHTML = '';
+    return;
+  }
+  sub.textContent = rows.length + ' player' + (rows.length === 1 ? '' : 's') + ' · Leader: ' + rows[0].name;
+  renderPerfComparisonCard();
+  wrap.innerHTML = rows.map((r,i) => {
+    return '<div class="rank-row' + (i === 0 ? ' leader' : '') + '"><span style="width:28px; text-align:center; font-size:1.1rem;">' + medalOrRank(i) + '</span>' +
+      '<span class="avatar">' + escapeHtml(r.name.slice(0,1).toUpperCase()) + '</span>' +
+      '<div style="flex:1;"><div style="font-weight:700;">' + escapeHtml(r.name) + '</div><div class="hint" style="margin:0;">' + r.games + ' game' + (r.games === 1 ? '' : 's') + '</div></div>' +
+      '<div style="text-align:right;"><div class="' + (r.net >= 0 ? 'net-pos' : 'net-neg') + '" style="font-weight:800; font-size:1.05rem;">' + (r.net >= 0 ? '+' : '-') + '$' + Math.abs(r.net).toFixed(2) + '</div><div class="hint" style="margin:0;">Net result</div></div></div>';
+  }).join('') + '<p class="hint" style="margin-top:14px;">Names are matched case-insensitively — spell each player the same way every game so they stay one row.</p>';
 }
 
 /* ================= setup screen ================= */
@@ -665,6 +968,8 @@ function renderActionBar(name){
     bar.innerHTML = '<div class="actionbar-inner"><button class="cta" style="background:var(--bad); color:#fff;" onclick="endGameAndCountChips()">End Game &amp; Count Chips</button></div>';
   } else if (name === 'countchips'){
     bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="cancelCountChips()">Cancel</button><button class="cta" onclick="calculate()">Finish Game</button></div>';
+  } else if (name === 'gameover'){
+    bar.innerHTML = '';
   } else {
     bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="goTo(\'countchips\')">Adjust chip counts</button><button class="cta" onclick="saveGameToHistory()">Save &amp; finish</button></div>';
   }
@@ -682,7 +987,7 @@ function breadcrumbHTML(){
 }
 function startNewGame(){
   clearDraft();
-  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = [];
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = []; state.gameEndedAt = null;
   setMode('wizard');
   goTo('setup');
 }
@@ -690,7 +995,7 @@ function exitWizardToDashboard(){ switchTab('dashboard'); }
 function discardGame(){
   if (!confirm('Discard this game without saving? This cannot be undone.')) return;
   clearDraft();
-  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = [];
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = []; state.gameEndedAt = null;
   switchTab('dashboard');
 }
 function resumeDraftFromDashboard(){
@@ -767,6 +1072,7 @@ function createCashGame(){
   state.paymentsPaid = {};
   state.activity = names.map(n => ({ id: 'a_' + Date.now() + '_' + n, type: 'buyin', playerName: n, amount: state.buyInDefault || 0, at: Date.now() }));
   state.chipCountLogs = [];
+  state.gameEndedAt = null;
   saveLastSelected(names);
   saveDraft();
   goTo('live');
@@ -1012,6 +1318,7 @@ function computeExpenseAdjustments(players, expenses){
 function endGameAndCountChips(){
   clearInterval(window.__liveInterval);
   state.phase = 'countchips';
+  state.gameEndedAt = Date.now();
   saveDraft();
   goTo('countchips');
   renderCountChips();
@@ -1199,8 +1506,9 @@ function paymentCardHTML(p){
 }
 function cancelCountChips(){
   commitCcStepInputIfPresent();
-  saveDraft();
   state.phase = 'live';
+  state.gameEndedAt = null;
+  saveDraft();
   goTo('live');
   renderLive();
 }
@@ -1371,10 +1679,15 @@ function saveGameToHistory(){
   if (result.players.length < 2) return;
   const record = {
     id: 'g_' + Date.now(),
-    gameName: state.gameName, format: state.format, stakes: state.stakes,
+    gameName: state.gameName, format: state.format, stakes: state.stakes, buyInDefault: state.buyInDefault,
     dateTimeISO: state.dateTimeISO || new Date().toISOString(), location: state.location,
     bankMode: state.bankMode, bankName: state.bankName,
     players: result.players.map((p, idx) => ({ name: p.name, buyin: p.buyin, cashout: p.cashout, net: result.nets[idx].amount })),
+    fullPlayers: JSON.parse(JSON.stringify(state.players)),
+    expenses: JSON.parse(JSON.stringify(state.expenses || [])),
+    activity: JSON.parse(JSON.stringify(state.activity || [])),
+    chipCountLogs: JSON.parse(JSON.stringify(state.chipCountLogs || [])),
+    gameStartedAt: state.gameStartedAt, gameEndedAt: state.gameEndedAt || Date.now(),
     sumBuyin: result.sumBuyin, sumCashout: result.sumCashout, expensesTotal: result.expensesTotal,
     summaryText: document.getElementById('summaryText').value,
     savedAt: new Date().toISOString()
@@ -1383,8 +1696,55 @@ function saveGameToHistory(){
   history.unshift(record);
   saveHistory(history);
   clearDraft();
-  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = [];
-  switchTab('games');
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = []; state.gameEndedAt = null;
+  renderGameOver(record);
+  goTo('gameover');
+}
+function shareOrCopyText(text, label){
+  if (navigator.share){
+    navigator.share({ text }).catch(() => {});
+    return;
+  }
+  let copied = false;
+  try{ if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text); copied = true; } }catch(e){}
+  if (!copied){
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      copied = true;
+    }catch(e){}
+  }
+  alert(copied ? ((label || 'Text') + ' copied to clipboard.') : 'Could not copy automatically — select and copy manually.');
+}
+function medalOrRank(i){ return i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i + 1); }
+function renderGameOver(record){
+  const players = record.players;
+  const nets = players.map(p => p.net).slice().sort((a,b) => b - a);
+  const ranked = players.slice().sort((a,b) => b.net - a.net);
+  const winner = ranked[0];
+  const avgBuyin = players.length ? record.sumBuyin / players.length : 0;
+  const resultsText = record.gameName + '\n' + 'Tonight\'s Winner: ' + (winner ? winner.name + ' +$' + winner.net.toFixed(2) : '—') + '\n' +
+    ranked.map((p, i) => medalOrRank(i) + ' ' + p.name + ' ' + (p.net >= 0 ? '+' : '-') + '$' + Math.abs(p.net).toFixed(2)).join('\n');
+  window.__gameOverShareText = resultsText;
+  document.getElementById('gameOverBody').innerHTML =
+    '<div style="text-align:center; margin-top:20px;"><div style="font-size:2.6rem;">🏆</div>' +
+    '<h1 style="margin:8px 0 2px;">Game Over!</h1><p class="sub" style="margin:0;">' + escapeHtml(record.gameName) + '</p></div>' +
+    '<div class="stat-grid3" style="margin-top:20px;">' +
+      statBox(players.length, 'PLAYERS') + statBox('$' + record.sumBuyin.toFixed(2), 'TOTAL POT', true) + statBox('$' + avgBuyin.toFixed(2), 'AVG BUY-IN') +
+    '</div>' +
+    (winner ? '<div class="card hero" style="margin-top:16px;"><div class="hint" style="margin:0; color:var(--pro);">TONIGHT\'S WINNER</div>' +
+      '<div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;"><b style="font-size:1.1rem;">' + escapeHtml(winner.name) + '</b>' +
+      '<span style="font-size:1.3rem; font-weight:800; color:var(--good);">+$' + winner.net.toFixed(2) + '</span></div></div>' : '') +
+    '<div class="card" style="margin-top:16px;"><div class="hint" style="margin:0;">TONIGHT\'S RESULTS</div>' +
+      ranked.map((p, i) => '<div class="activity-row"><span style="width:26px; text-align:center;">' + medalOrRank(i) + '</span>' +
+        '<span style="flex:1; font-weight:600;">' + escapeHtml(p.name) + '</span>' +
+        '<b style="color:' + (p.net > 0 ? 'var(--good)' : p.net < 0 ? 'var(--bad)' : 'var(--muted)') + ';">' + (p.net >= 0 ? '+' : '-') + '$' + Math.abs(p.net).toFixed(2) + '</b></div>').join('') +
+    '</div>' +
+    '<button class="cta-inline" style="width:100%; margin-top:16px;" onclick="shareOrCopyText(window.__gameOverShareText, \'Results\')">Share Tonight\'s Results</button>' +
+    '<button class="show-more-link" style="margin-top:14px;" onclick="switchTab(\'standings\')">Back to Standings</button>';
 }
 
 /* ================= init ================= */
