@@ -150,6 +150,45 @@
   .expense-row{display:flex; justify-content:space-between; font-size:.85rem; padding:6px 0; border-bottom:1px solid var(--line-soft);}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.55;}}
   .ringing{animation:pulse 1s infinite;}
+
+  /* settle payments */
+  .progress-track{width:100%; height:8px; border-radius:999px; background:var(--input-bg); border:1px solid var(--line); overflow:hidden; margin:10px 0 6px;}
+  .progress-fill{height:100%; background:var(--accent); border-radius:999px; transition:width .25s ease;}
+  .settle-group{border:1px solid var(--line); background:var(--card2); border-radius:14px; margin-top:10px; overflow:hidden;}
+  .settle-group-header{display:flex; align-items:center; gap:10px; padding:14px; cursor:pointer;}
+  .settle-group-body{padding:0 14px 14px;}
+  .settle-payment-row{display:flex; justify-content:space-between; align-items:center; background:var(--input-bg); border:1px solid var(--line-soft); border-radius:10px; padding:10px 12px; margin-top:8px;}
+  .settle-payment-info{font-size:.85rem; color:var(--muted);}
+  .settle-payment-info b{color:var(--ink);}
+  button.mark-paid{background:var(--accent); color:var(--accent-ink); border:none; border-radius:999px; padding:8px 14px; font-size:.78rem; font-weight:700; cursor:pointer; white-space:nowrap;}
+  button.mark-paid.is-paid{background:none; border:1px solid var(--good); color:var(--good);}
+  .chevron{color:var(--muted); font-size:.8rem; transition:transform .15s ease; margin-left:auto;}
+  .chevron.open{transform:rotate(180deg);}
+
+  /* count chips wizard */
+  .cc-badge-delta{font-weight:700; font-size:.85rem; padding:2px 0;}
+  .cc-big-input{display:flex; align-items:center; border:1px solid var(--accent); border-radius:14px; background:var(--input-bg); padding:0 14px; margin-top:12px;}
+  .cc-big-input span{color:var(--accent); font-size:1.3rem; font-weight:700; margin-right:6px;}
+  .cc-big-input input{border:none; background:none; padding:16px 0; font-size:1.3rem; font-weight:700; color:var(--ink); width:100%;}
+  .cc-recap-row{display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--line); background:var(--card2); border-radius:12px; margin-top:8px; cursor:pointer;}
+  .cc-recap-row.current{border-color:var(--accent);}
+  .cc-recap-name{font-weight:700;}
+  .cc-recap-meta{color:var(--muted); font-size:.75rem; margin-top:2px;}
+  .banner{border-radius:14px; padding:14px; margin-top:16px; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+  .banner.warn-bg{background:rgba(232,179,76,.1); border:1px solid var(--pro);}
+  .banner.ok-bg{background:rgba(47,230,160,.1); border:1px solid var(--good);}
+
+  /* activity + history */
+  .activity-row{display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--line-soft);}
+  .activity-row:last-child{border-bottom:none;}
+  .activity-tag{font-size:.68rem; font-weight:700; border-radius:999px; padding:2px 9px; text-transform:uppercase; letter-spacing:.02em;}
+  .activity-tag.buyin{background:rgba(47,230,160,.14); color:var(--good);}
+  .activity-tag.rebuy{background:rgba(232,179,76,.14); color:var(--pro);}
+  .activity-tag.expense{background:rgba(239,122,109,.14); color:var(--bad);}
+  .activity-time{color:var(--muted); font-size:.72rem; margin-top:2px;}
+  .show-more-link{background:none; border:none; color:var(--muted); font-size:.78rem; cursor:pointer; width:100%; text-align:center; padding:10px 0 0;}
+  .history-entry{border:1px solid var(--line-soft); background:var(--input-bg); border-radius:10px; padding:10px 12px; margin-top:8px; font-size:.8rem;}
+  .history-entry-time{color:var(--muted); font-size:.72rem; margin-bottom:4px;}
 </style>
 </head>
 <body>
@@ -301,16 +340,22 @@
 
     <div class="card" id="bombPotCard"></div>
     <div class="card" id="expensesCard"></div>
+    <div class="card" id="activityCard"></div>
   </section>
 
   <section class="screen" id="screen-countchips">
-    <button class="backlink" onclick="goTo('live')">&larr; Back to game</button>
+    <button class="backlink" onclick="cancelCountChips()">&larr; Back to game</button>
     <h1>Count Chips</h1>
-    <p class="sub">Enter each player's final chip count.</p>
-    <table>
-      <thead><tr><th style="width:28%">Player</th><th style="width:22%">Buy-in</th><th style="width:22%">Cash-out ($)</th><th style="width:16%; text-align:right;">Net</th><th style="width:12%" id="ccBankHeader"></th></tr></thead>
-      <tbody id="ccRows"></tbody>
-    </table>
+    <p class="sub" id="ccPotSub">Enter each player's final chip count.</p>
+
+    <div class="card" id="ccWizardCard"></div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+      <span class="hint" id="ccEnteredCount" style="margin:0;">0 of 0 entered</span>
+      <span class="hint" id="ccRemainingLabel" style="margin:0;"></span>
+    </div>
+    <div id="ccRecapList"></div>
+    <div id="ccRemainingBanner"></div>
     <div id="balanceMsg"></div>
   </section>
 
@@ -324,7 +369,8 @@
     <div class="summary-line" id="expensesLine" style="display:none;"><span>Game expenses</span><b id="sumExpenses">$0.00</b></div>
     <div id="balanceMsgResults"></div>
 
-    <div class="payments" id="payments"></div>
+    <div id="settlePaymentsWrap"></div>
+    <div id="chipCountHistoryWrap"></div>
 
     <div class="row-actions">
       <button class="secondary" onclick="copySummary()">Copy summary</button>
@@ -354,7 +400,8 @@ let playerCounter = 0;
 let state = {
   gameName: '', format: 'in-person', stakes: STAKE_PRESETS[0], buyInDefault: 5,
   dateTimeISO: '', location: '', bankMode: false, bankName: '', remember: true,
-  phase: 'setup', players: [], expenses: [], bombPot: null, gameStartedAt: null
+  phase: 'setup', players: [], expenses: [], bombPot: null, gameStartedAt: null,
+  ccStep: 0, paymentsPaid: {}, activity: [], chipCountLogs: []
 };
 
 /* ================= persistence: settings / roster / draft / history ================= */
@@ -617,7 +664,7 @@ function renderActionBar(name){
   } else if (name === 'live'){
     bar.innerHTML = '<div class="actionbar-inner"><button class="cta" style="background:var(--bad); color:#fff;" onclick="endGameAndCountChips()">End Game &amp; Count Chips</button></div>';
   } else if (name === 'countchips'){
-    bar.innerHTML = '<div class="actionbar-inner"><button class="cta" onclick="calculate()">Calculate Settlement</button></div>';
+    bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="cancelCountChips()">Cancel</button><button class="cta" onclick="calculate()">Finish Game</button></div>';
   } else {
     bar.innerHTML = '<div class="actionbar-inner"><button class="cta secondary" onclick="goTo(\'countchips\')">Adjust chip counts</button><button class="cta" onclick="saveGameToHistory()">Save &amp; finish</button></div>';
   }
@@ -635,7 +682,7 @@ function breadcrumbHTML(){
 }
 function startNewGame(){
   clearDraft();
-  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup';
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = [];
   setMode('wizard');
   goTo('setup');
 }
@@ -643,7 +690,7 @@ function exitWizardToDashboard(){ switchTab('dashboard'); }
 function discardGame(){
   if (!confirm('Discard this game without saving? This cannot be undone.')) return;
   clearDraft();
-  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup';
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = [];
   switchTab('dashboard');
 }
 function resumeDraftFromDashboard(){
@@ -716,6 +763,10 @@ function createCashGame(){
   state.bombPot = { durationSec: 1800, remainingSec: 1800, running: false, lastTickAt: null, alerted: false };
   state.gameStartedAt = Date.now();
   state.phase = 'live';
+  state.ccStep = 0;
+  state.paymentsPaid = {};
+  state.activity = names.map(n => ({ id: 'a_' + Date.now() + '_' + n, type: 'buyin', playerName: n, amount: state.buyInDefault || 0, at: Date.now() }));
+  state.chipCountLogs = [];
   saveLastSelected(names);
   saveDraft();
   goTo('live');
@@ -756,6 +807,33 @@ function tickLive(){
   document.getElementById('livePlayers').innerHTML = players.map(p => livePlayerCardHTML(p, now)).join('');
   renderBombPotCard(now);
   renderExpensesCard();
+  renderActivityFeed();
+}
+function logActivity(type, playerName, amount){
+  (state.activity = state.activity || []).push({ id: 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), type, playerName, amount, at: Date.now() });
+}
+function renderActivityFeed(){
+  const card = document.getElementById('activityCard');
+  if (!card) return;
+  const list = (state.activity || []).slice().sort((a,b) => b.at - a.at);
+  if (!list.length){ card.innerHTML = ''; return; }
+  const expanded = !!window.__activityExpanded;
+  const shown = expanded ? list : list.slice(0, 4);
+  const tagLabel = { buyin: 'Buy-in', rebuy: 'Rebuy', expense: 'Expense' };
+  card.innerHTML = '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+    '<div style="font-weight:700;">Recent Activity</div><span class="hint" style="margin:0;">' + list.length + ' total</span></div>' +
+    shown.map(a => {
+      const t = new Date(a.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+      return '<div class="activity-row"><span class="avatar" style="width:32px;height:32px;font-size:.8rem;">' + escapeHtml((a.playerName||'?').slice(0,1).toUpperCase()) + '</span>' +
+        '<div style="flex:1;"><div style="display:flex; align-items:center; gap:8px;"><b>' + escapeHtml(a.playerName || '') + '</b><span class="activity-tag ' + a.type + '">' + (tagLabel[a.type] || a.type) + '</span></div>' +
+        '<div class="activity-time">' + t + '</div></div>' +
+        '<b>$' + Math.abs(a.amount).toFixed(2) + '</b></div>';
+    }).join('') +
+    (list.length > 4 ? '<button class="show-more-link" onclick="toggleActivityExpanded()">' + (expanded ? 'Show less' : 'Show ' + (list.length - 4) + ' more') + '</button>' : '');
+}
+function toggleActivityExpanded(){
+  window.__activityExpanded = !window.__activityExpanded;
+  renderActivityFeed();
 }
 function livePlayerCardHTML(p, now){
   const total = sumArr(p.buyins);
@@ -775,7 +853,9 @@ function livePlayerCardHTML(p, now){
 }
 function quickRebuy(id){
   const p = state.players.find(x => x.id === id); if (!p) return;
-  p.buyins.push(state.buyInDefault || 0);
+  const amt = state.buyInDefault || 0;
+  p.buyins.push(amt);
+  logActivity('rebuy', p.name, amt);
   saveDraft(); tickLive();
 }
 function customRebuy(id){
@@ -784,7 +864,9 @@ function customRebuy(id){
   if (amtStr === null) return;
   const v = parseFloat(amtStr);
   if (isNaN(v) || v <= 0){ alert('Enter a valid amount.'); return; }
-  p.buyins.push(Math.round(v * 100) / 100);
+  const amt = Math.round(v * 100) / 100;
+  p.buyins.push(amt);
+  logActivity('rebuy', p.name, amt);
   saveDraft(); tickLive();
 }
 function togglePause(id){
@@ -817,7 +899,9 @@ function addLivePlayer(){
   if (!name || !name.trim()) return;
   const trimmed = name.trim();
   addNameToRoster(trimmed);
-  state.players.push(makeNewPlayer(trimmed));
+  const np = makeNewPlayer(trimmed);
+  state.players.push(np);
+  logActivity('buyin', trimmed, np.buyins[0] || 0);
   saveDraft(); tickLive();
 }
 function seatDraw(){
@@ -901,7 +985,9 @@ function addExpense(){
   if (isNaN(amt) || amt <= 0){ alert('Enter a valid amount.'); return; }
   const names = state.players.map(p => p.name).join(', ');
   const paidBy = prompt('Who paid for it? (' + names + ')', state.players[0] ? state.players[0].name : '');
-  (state.expenses = state.expenses || []).push({ id: 'e_' + Date.now(), description: desc.trim(), amount: Math.round(amt*100)/100, paidBy: (paidBy || '').trim() });
+  const roundedAmt = Math.round(amt*100)/100;
+  (state.expenses = state.expenses || []).push({ id: 'e_' + Date.now(), description: desc.trim(), amount: roundedAmt, paidBy: (paidBy || '').trim() });
+  logActivity('expense', (paidBy || '').trim() || desc.trim(), roundedAmt);
   saveDraft(); tickLive();
 }
 function removeExpense(id){
@@ -930,46 +1016,133 @@ function endGameAndCountChips(){
   goTo('countchips');
   renderCountChips();
 }
+function totalPotAmount(){ return state.players.reduce((s,p) => s + sumArr(p.buyins), 0); }
+function ccEnteredPlayers(){ return state.players.filter(p => p.cashout != null); }
+function computeAssignedSum(liveOverride){
+  let sum = 0;
+  state.players.forEach((p, idx) => {
+    if (idx === state.ccStep && liveOverride != null && !isNaN(liveOverride)) sum += liveOverride;
+    else if (p.cashout != null) sum += p.cashout;
+  });
+  return Math.round(sum * 100) / 100;
+}
 function renderCountChips(){
-  document.getElementById('ccBankHeader').textContent = state.bankMode ? 'Bank' : '';
-  document.getElementById('ccRows').innerHTML = state.players.map(p => {
-    const total = sumArr(p.buyins);
-    return '<tr data-id="' + p.id + '">' +
-      '<td>' + escapeHtml(p.name) + '</td>' +
-      '<td>$' + total.toFixed(2) + ' <span class="hint" style="margin:0;">(' + p.buyins.length + ')</span></td>' +
-      '<td><input type="text" inputmode="decimal" class="money cc-cashout" placeholder="0" value="' + (p.cashout != null ? p.cashout : '') + '"></td>' +
-      '<td class="net-cell" id="cc-net-' + p.id + '">—</td>' +
-      '<td style="text-align:center;"><input type="radio" name="ccBank" class="bank-radio" ' + (state.bankName === p.name ? 'checked' : '') + '></td>' +
-      '</tr>';
-  }).join('');
-  document.querySelectorAll('#ccRows tr').forEach(tr => {
-    const inp = tr.querySelector('.cc-cashout');
-    inp.addEventListener('input', () => updateCcNet(inp));
-    tr.querySelector('.bank-radio').addEventListener('change', syncBankFromCc);
-    updateCcNet(inp);
-  });
+  const n = state.players.length;
+  if (n === 0) return;
+  if (state.ccStep == null || state.ccStep < 0) state.ccStep = 0;
+  if (state.ccStep > n - 1) state.ccStep = n - 1;
+  const pot = totalPotAmount();
+  document.getElementById('ccPotSub').textContent = '$' + pot.toFixed(2) + ' pot · ' + n + ' player' + (n === 1 ? '' : 's');
+  renderCcWizardCard();
+  renderCcRecap();
+  renderCcRemainingBanner();
 }
-function updateCcNet(inp){
-  const tr = inp.closest('tr');
-  const id = tr.dataset.id;
-  const p = state.players.find(x => x.id === id);
-  const cashout = parseAmount(inp.value);
-  const cell = document.getElementById('cc-net-' + id);
-  if (isNaN(cashout)){ cell.textContent = '—'; cell.className = 'net-cell'; return; }
-  p.cashout = cashout;
-  const net = Math.round((cashout - sumArr(p.buyins)) * 100) / 100;
-  cell.textContent = (net >= 0 ? '+' : '-') + '$' + Math.abs(net).toFixed(2);
-  cell.className = 'net-cell ' + (net >= 0 ? 'net-pos' : 'net-neg');
-  saveDraft();
+function renderCcWizardCard(){
+  const n = state.players.length;
+  const p = state.players[state.ccStep];
+  const buyin = sumArr(p.buyins);
+  const val = p.cashout != null ? p.cashout : '';
+  const isLast = state.ccStep === n - 1;
+  document.getElementById('ccWizardCard').innerHTML =
+    '<div style="display:flex; justify-content:space-between; align-items:flex-start;">' +
+      '<div style="display:flex; gap:10px; align-items:center;"><span class="avatar">' + escapeHtml(p.name.slice(0,1).toUpperCase()) + '</span>' +
+      '<div><div style="font-weight:700; font-size:1.05rem;">' + escapeHtml(p.name) + '</div>' +
+      '<div class="hint" style="margin:0;">Bought in $' + buyin.toFixed(2) + ' · ' + (state.ccStep + 1) + ' of ' + n + '</div></div></div>' +
+      '<div class="cc-badge-delta" id="ccDeltaBadge"></div>' +
+    '</div>' +
+    '<label class="field-label" style="margin-top:14px;">Enter final chip value</label>' +
+    '<div class="cc-big-input"><span>$</span><input type="text" inputmode="decimal" id="ccStepInput" placeholder="0" value="' + val + '" oninput="ccOnInput()"></div>' +
+    (state.bankMode ? '<label style="display:flex; align-items:center; gap:8px; margin-top:12px; font-size:.85rem; color:var(--muted); cursor:pointer;">' +
+      '<input type="checkbox" class="bank-radio" ' + (state.bankName === p.name ? 'checked' : '') + ' onchange="setBankPlayer(\'' + p.id + '\', this.checked)"> This player is the Bank</label>' : '') +
+    '<div style="display:flex; gap:10px; margin-top:16px;">' +
+      '<button class="cta secondary" ' + (state.ccStep === 0 ? 'disabled style="opacity:.5;"' : '') + ' onclick="ccGoStep(' + (state.ccStep - 1) + ')">Previous</button>' +
+      '<button class="cta" onclick="ccConfirmStep()">' + (isLast ? 'Done' : 'Next') + '</button>' +
+    '</div>';
+  updateCcDeltaBadge();
+  document.getElementById('ccStepInput').focus();
 }
-function syncBankFromCc(){
-  document.querySelectorAll('#ccRows tr').forEach(tr => {
-    const p = state.players.find(x => x.id === tr.dataset.id);
-    if (p) p.isBank = tr.querySelector('.bank-radio').checked;
-  });
+function updateCcDeltaBadge(){
+  const p = state.players[state.ccStep];
+  const buyin = sumArr(p.buyins);
+  const inp = document.getElementById('ccStepInput');
+  const badge = document.getElementById('ccDeltaBadge');
+  const v = parseAmount(inp.value);
+  if (inp.value === '' || isNaN(v)){ badge.textContent = ''; return; }
+  const delta = Math.round((v - buyin) * 100) / 100;
+  badge.textContent = (delta >= 0 ? '+$' : '-$') + Math.abs(delta).toFixed(2);
+  badge.style.color = delta >= 0 ? 'var(--good)' : 'var(--bad)';
+}
+function ccOnInput(){
+  updateCcDeltaBadge();
+  const inp = document.getElementById('ccStepInput');
+  const v = parseAmount(inp.value);
+  renderCcRemainingBanner(inp.value === '' || isNaN(v) ? null : v);
+}
+function setBankPlayer(id, checked){
+  state.players.forEach(p => { p.isBank = checked && p.id === id; });
   const bank = state.players.find(p => p.isBank);
   state.bankName = bank ? bank.name : '';
   saveDraft();
+}
+function ccGoStep(i){
+  const n = state.players.length;
+  if (i < 0 || i > n - 1) return;
+  const inp = document.getElementById('ccStepInput');
+  if (inp && inp.value !== ''){
+    const v = parseAmount(inp.value);
+    if (!isNaN(v)) state.players[state.ccStep].cashout = v;
+  }
+  state.ccStep = i;
+  saveDraft();
+  renderCountChips();
+}
+function ccConfirmStep(){
+  const inp = document.getElementById('ccStepInput');
+  const v = parseAmount(inp.value);
+  if (inp.value.trim() === '' || isNaN(v) || v < 0){ alert('Enter a valid chip count.'); return; }
+  state.players[state.ccStep].cashout = v;
+  saveDraft();
+  const n = state.players.length;
+  if (state.ccStep < n - 1) state.ccStep++;
+  renderCountChips();
+}
+function renderCcRecap(){
+  const list = document.getElementById('ccRecapList');
+  const entered = ccEnteredPlayers().length;
+  document.getElementById('ccEnteredCount').textContent = entered + ' of ' + state.players.length + ' entered';
+  list.innerHTML = state.players.map((p, idx) => {
+    const buyin = sumArr(p.buyins);
+    const isCurrent = idx === state.ccStep;
+    if (p.cashout == null){
+      return '<div class="cc-recap-row' + (isCurrent ? ' current' : '') + '" onclick="ccGoStep(' + idx + ')">' +
+        '<span class="avatar" style="width:32px;height:32px;font-size:.8rem;">' + escapeHtml(p.name.slice(0,1).toUpperCase()) + '</span>' +
+        '<div><div class="cc-recap-name">' + escapeHtml(p.name) + '</div><div class="cc-recap-meta">In $' + buyin.toFixed(2) + '</div></div>' +
+        '<span class="hint" style="margin-left:auto;">not entered yet</span></div>';
+    }
+    const net = Math.round((p.cashout - buyin) * 100) / 100;
+    return '<div class="cc-recap-row' + (isCurrent ? ' current' : '') + '" onclick="ccGoStep(' + idx + ')">' +
+      '<span class="avatar" style="width:32px;height:32px;font-size:.8rem;">' + escapeHtml(p.name.slice(0,1).toUpperCase()) + '</span>' +
+      '<div><div class="cc-recap-name">' + escapeHtml(p.name) + '</div><div class="cc-recap-meta">In $' + buyin.toFixed(2) + '</div></div>' +
+      '<div style="margin-left:auto; text-align:right;"><div style="font-weight:700;">$' + p.cashout.toFixed(2) + '</div>' +
+      '<div class="net-cell ' + (net >= 0 ? 'net-pos' : 'net-neg') + '" style="font-size:.78rem;">' + (net >= 0 ? '+' : '-') + '$' + Math.abs(net).toFixed(2) + '</div></div></div>';
+  }).join('');
+}
+function renderCcRemainingBanner(liveOverride){
+  const pot = totalPotAmount();
+  const assigned = computeAssignedSum(liveOverride);
+  const remaining = Math.round((pot - assigned) * 100) / 100;
+  document.getElementById('ccRemainingLabel').textContent = '$' + assigned.toFixed(2) + ' assigned';
+  const allEntered = ccEnteredPlayers().length === state.players.length && liveOverride == null;
+  const banner = document.getElementById('ccRemainingBanner');
+  if (Math.abs(remaining) <= 0.004){
+    banner.innerHTML = allEntered
+      ? '<div class="banner ok-bg"><span>&#10003; All chips assigned — ready to finish.</span></div>'
+      : '';
+  } else if (remaining > 0){
+    banner.innerHTML = '<div class="banner warn-bg"><span>&#9888; $' + remaining.toFixed(2) + ' left to assign</span><span class="hint" style="margin:0;">$' + assigned.toFixed(2) + ' of $' + pot.toFixed(2) + '</span></div>';
+  } else {
+    banner.innerHTML = '<div class="banner warn-bg"><span>&#9888; $' + Math.abs(remaining).toFixed(2) + ' too much assigned</span><span class="hint" style="margin:0;">$' + assigned.toFixed(2) + ' of $' + pot.toFixed(2) + '</span></div>';
+  }
 }
 function parseAmount(str){
   if (!str) return 0;
@@ -1024,15 +1197,59 @@ function computeSettlement(){
 function paymentCardHTML(p){
   return '<div class="payment"><span>' + escapeHtml(p.from) + '</span><span class="arrow">pays</span><span class="amt">$' + p.amount.toFixed(2) + '</span><span class="arrow">to</span><span>' + escapeHtml(p.to) + '</span></div>';
 }
+function cancelCountChips(){
+  commitCcStepInputIfPresent();
+  saveDraft();
+  state.phase = 'live';
+  goTo('live');
+  renderLive();
+}
+function commitCcStepInputIfPresent(){
+  const inp = document.getElementById('ccStepInput');
+  if (inp && inp.value !== '' && state.players[state.ccStep]){
+    const v = parseAmount(inp.value);
+    if (!isNaN(v)) state.players[state.ccStep].cashout = v;
+  }
+}
 function calculate(){
+  commitCcStepInputIfPresent();
   const result = computeSettlement();
   if (result.players.length < 2){
     document.getElementById('balanceMsg').innerHTML = '<div class="warn">Add at least two players first.</div>';
     return;
   }
   document.getElementById('balanceMsg').innerHTML = '';
+  logChipCountSnapshot(result);
   renderResultsScreen(result);
   goTo('results');
+}
+function logChipCountSnapshot(result){
+  const entries = result.players.map(p => ({ name: p.name, cashout: p.cashout }));
+  const logs = state.chipCountLogs || (state.chipCountLogs = []);
+  const last = logs[logs.length - 1];
+  const sameAsLast = last && JSON.stringify(last.entries) === JSON.stringify(entries);
+  if (!sameAsLast){
+    logs.push({ at: Date.now(), entries, sumCashout: result.sumCashout });
+    if (logs.length > 20) logs.shift();
+    saveDraft();
+  }
+}
+function renderChipCountHistory(){
+  const wrap = document.getElementById('chipCountHistoryWrap');
+  if (!wrap) return;
+  const logs = state.chipCountLogs || [];
+  const prior = logs.slice(0, -1).slice().reverse();
+  let html = '<div class="section-label" style="margin-top:22px;">Chip Count History</div>';
+  if (!prior.length){
+    html += '<p class="hint" style="margin-top:0;">No previous chip count logs yet.</p>';
+  } else {
+    html += prior.map(log => {
+      const t = new Date(log.at).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+      const line = log.entries.map(e => escapeHtml(e.name) + ' $' + (e.cashout != null ? e.cashout.toFixed(2) : '—')).join(', ');
+      return '<div class="history-entry"><div class="history-entry-time">' + t + '</div>' + line + '</div>';
+    }).join('');
+  }
+  wrap.innerHTML = html;
 }
 function renderResultsScreen(result){
   const { players, nets, sumBuyin, sumCashout, diff, payments, bankSplit, expensesTotal } = result;
@@ -1047,19 +1264,78 @@ function renderResultsScreen(result){
     ? '<div class="warn">Buy-ins and cash-outs are off by $' + Math.abs(diff).toFixed(2) + ' — double check the chip counts before settling.</div>'
     : '<div class="ok">Buy-ins and cash-outs balance. Ready to settle.</div>';
 
-  const paymentsEl = document.getElementById('payments');
-  let html = '';
-  if (state.bankMode && state.bankName && bankSplit){
-    if (bankSplit.toBank.length) html += '<div class="bank-heading">Pay the bank (' + escapeHtml(state.bankName) + ')</div>' + bankSplit.toBank.map(paymentCardHTML).join('');
-    if (bankSplit.fromBank.length) html += '<div class="bank-heading">Bank pays out</div>' + bankSplit.fromBank.map(paymentCardHTML).join('');
-    paymentsEl.innerHTML = html || '<p class="hint">Everyone is already even — no payments needed.</p>';
-  } else {
-    if (state.bankMode && !state.bankName) html += '<p class="warn">Bank Mode is on but no player is marked as the bank — go back and pick one. Showing direct peer-to-peer settlement instead.</p>';
-    html += payments.length ? payments.map(paymentCardHTML).join('') : '<p class="hint">Everyone is already even — no payments needed.</p>';
-    paymentsEl.innerHTML = html;
-  }
+  renderSettlePayments(result);
+  renderChipCountHistory();
   const summaryPaymentsText = payments.map(p => p.from + ' pays ' + p.to + ' $' + p.amount.toFixed(2)).join('\n');
   buildSummaryText(players, nets, sumBuyin, sumCashout, summaryPaymentsText, expensesTotal);
+}
+function paymentKey(p){ return p.from + '|' + p.to + '|' + p.amount.toFixed(2); }
+function renderSettlePayments(result){
+  const wrap = document.getElementById('settlePaymentsWrap');
+  const payments = result.payments || [];
+  if (!payments.length){
+    wrap.innerHTML = (state.bankMode && !state.bankName)
+      ? '<p class="warn">Bank Mode is on but no player is marked as the bank — go back and pick one.</p>'
+      : '<p class="hint" style="margin-top:16px;">Everyone is already even — no payments needed.</p>';
+    return;
+  }
+  if (!window.__settleExpanded) window.__settleExpanded = new Set();
+  const paidMap = state.paymentsPaid || {};
+  let settled = 0, total = 0, paidCount = 0;
+  payments.forEach(p => { total += p.amount; if (paidMap[paymentKey(p)]) { settled += p.amount; paidCount++; } });
+  settled = Math.round(settled * 100) / 100; total = Math.round(total * 100) / 100;
+  const pct = total > 0 ? Math.min(100, Math.round((settled / total) * 100)) : 100;
+
+  // group by recipient (creditor) — for Bank Mode this naturally splits "pay the bank" (one group)
+  // from each individual payout the bank makes.
+  const groupOrder = [];
+  const groups = {};
+  payments.forEach(p => {
+    if (!groups[p.to]){ groups[p.to] = { to: p.to, payments: [] }; groupOrder.push(p.to); }
+    groups[p.to].payments.push(p);
+  });
+
+  let html = '<div class="section-label" style="margin-top:20px;">Settle Payments</div>';
+  html += '<div style="display:flex; justify-content:space-between; align-items:baseline;">' +
+    '<div><span class="hint" style="margin:0;">SETTLED</span><div style="font-size:1.3rem; font-weight:800; color:var(--good);">$' + settled.toFixed(2) + '</div></div>' +
+    '<div style="text-align:right;"><span class="hint" style="margin:0;">TOTAL</span><div style="font-size:1.3rem; font-weight:800;">$' + total.toFixed(2) + '</div></div></div>' +
+    '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%;"></div></div>' +
+    '<p class="hint" style="margin:0;">' + paidCount + ' of ' + payments.length + ' paid</p>';
+
+  groupOrder.forEach(to => {
+    const g = groups[to];
+    const groupTotal = g.payments.reduce((s,p) => s + p.amount, 0);
+    const groupPaid = g.payments.filter(p => paidMap[paymentKey(p)]).length;
+    const expanded = window.__settleExpanded.has(to) || payments.length <= 4;
+    html += '<div class="settle-group">' +
+      '<div class="settle-group-header" onclick="toggleSettleGroup(\'' + to.replace(/'/g,"\\'") + '\')">' +
+        '<span class="avatar" style="width:32px;height:32px;font-size:.85rem;">' + escapeHtml(to.slice(0,1).toUpperCase()) + '</span>' +
+        '<div><div style="font-weight:700;">' + escapeHtml(to) + '</div><div class="hint" style="margin:0;">' + groupPaid + '/' + g.payments.length + ' paid</div></div>' +
+        '<div style="margin-left:auto; text-align:right; font-weight:700;">$' + groupTotal.toFixed(2) + '</div>' +
+        '<span class="chevron' + (expanded ? ' open' : '') + '">&#9660;</span>' +
+      '</div>' +
+      (expanded ? '<div class="settle-group-body">' + g.payments.map(p => {
+        const key = paymentKey(p);
+        const isPaid = !!paidMap[key];
+        return '<div class="settle-payment-row"><span class="settle-payment-info"><b>' + escapeHtml(p.from) + '</b> &rarr; ' + escapeHtml(p.to) + '</span>' +
+          '<span style="display:flex; align-items:center; gap:10px;"><b>$' + p.amount.toFixed(2) + '</b>' +
+          '<button class="mark-paid' + (isPaid ? ' is-paid' : '') + '" onclick="togglePaymentPaid(\'' + key.replace(/'/g,"\\'") + '\')">' + (isPaid ? '&#10003; Paid' : 'Mark as Paid') + '</button></span></div>';
+      }).join('') + '</div>' : '') +
+    '</div>';
+  });
+
+  wrap.innerHTML = html;
+}
+function toggleSettleGroup(to){
+  if (!window.__settleExpanded) window.__settleExpanded = new Set();
+  if (window.__settleExpanded.has(to)) window.__settleExpanded.delete(to); else window.__settleExpanded.add(to);
+  renderSettlePayments(computeSettlement());
+}
+function togglePaymentPaid(key){
+  state.paymentsPaid = state.paymentsPaid || {};
+  state.paymentsPaid[key] = !state.paymentsPaid[key];
+  saveDraft();
+  renderSettlePayments(computeSettlement());
 }
 function buildSummaryText(players, nets, sumBuyin, sumCashout, paymentsText, expensesTotal){
   const dt = state.dateTimeISO ? new Date(state.dateTimeISO).toLocaleString() : new Date().toLocaleString();
@@ -1107,7 +1383,7 @@ function saveGameToHistory(){
   history.unshift(record);
   saveHistory(history);
   clearDraft();
-  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup';
+  state.players = []; state.expenses = []; state.bombPot = null; state.phase = 'setup'; state.ccStep = 0; state.paymentsPaid = {}; state.activity = []; state.chipCountLogs = [];
   switchTab('games');
 }
 
